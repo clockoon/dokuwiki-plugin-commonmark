@@ -1,0 +1,23 @@
+{
+    "name": "clockoon/dokuwiki-commonmark-plugin",
+    "type": "dokuwiki-plugin",
+    "description": "DokuWiki Commonmark Plugin",
+    "keywords": [
+        "dokuwiki",
+        "plugin",
+        "markdown"
+    ],
+    "license": [
+        "Apache-2.0",
+        "GPL-2.0-or-later"
+    ],
+    "authors": [
+        {
+            "name": "Sungbin Jeon",
+            "email": "clockoon@gmail.com"
+        }
+    ],
+    "require": {
+        "league/commonmark": "1.6.*"
+    }
+}
