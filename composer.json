@@ -1,6 +1,7 @@
 {
     "name": "clockoon/dokuwiki-commonmark-plugin",
     "type": "dokuwiki-plugin",
+    "version": "1.0.0",
     "description": "DokuWiki Commonmark Plugin",
     "keywords": [
         "dokuwiki",
@@ -17,6 +18,11 @@
             "email": "clockoon@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Dokuwiki\\": "src/Dokuwiki"
+        }
+    },
     "require": {
         "league/commonmark": "1.6.*"
     }

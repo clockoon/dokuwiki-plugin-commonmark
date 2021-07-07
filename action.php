@@ -2,10 +2,16 @@
 /**
  * Commonmark Plugin test
  */
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
-if(!defined('DOKU_INC')) die();
+ require_once __DIR__.'/src/bootstrap.php';
 
-class action_plugin_commonmark extends DokuWiki_Action_Plugin {
+ use Dokuwiki\Plugin\Commonmark\Commonmark;
+
+ if(!defined('DOKU_INC')) die();
+
+ class action_plugin_commonmark extends DokuWiki_Action_Plugin {
     /**
      * pass text to Commonmark parser before DW parser
      */
@@ -20,7 +26,8 @@ class action_plugin_commonmark extends DokuWiki_Action_Plugin {
      */
     public function _commonmarkparse(Doku_Event $event, $param) {
         if (preg_match('/\A<!DOCTYPE markdown>/',$event->data)) {
-            $event->data = "===== WILL DW RENDERING WORK? =====";
+            $event->data = Commonmark::RendtoDW(preg_replace('/\A<!DOCTYPE markdown>/','',$event->data));
+            #$event->data = "PASSED";
         }
 
     }
