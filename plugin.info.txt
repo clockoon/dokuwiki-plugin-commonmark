@@ -1,7 +1,7 @@
 base   commonmark
 author Sungbin Jeon
 email  clockoon@gmail.com
-date   2021-06-23
+date   2021-07-09
 name   Commonmark Plugin
 desc   Add compatibility for commonmark tod dokuwiki
 url    https://www.dokuwiki.org/plugin:commonmark
