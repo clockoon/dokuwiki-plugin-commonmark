@@ -1,12 +1,13 @@
 <?php
 
 /*
- * This file is part of the league/commonmark package.
+ * This file is part of the clockoon/dokuwiki-commonmark-plugin package.
  *
- * (c) Colin O'Dell <colinodell@gmail.com>
+ * (c) Sungbin Jeon <clockoon@gmail.com>
  *
- * Original code based on the CommonMark JS reference parser (https://bitly.com/commonmark-js)
- *  - (c) John MacFarlane
+ * Original code based on the followings:
+ * - CommonMark JS reference parser (https://bitly.com/commonmark-js) (c) John MacFarlane
+ * - league/commonmark (https://github.com/thephpleague/commonmark) (c) Colin O'Dell <colinodell@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,18 +24,18 @@ final class DocumentRenderer implements BlockRendererInterface
 {
     /**
      * @param Document                 $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, bool $inTightList = false)
+    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {
         if (!($block instanceof Document)) {
             throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
         }
 
-        $wholeDoc = $htmlRenderer->renderBlocks($block->children());
+        $wholeDoc = $DWRenderer->renderBlocks($block->children());
 
         return $wholeDoc === '' ? '' : $wholeDoc . "\n";
     }

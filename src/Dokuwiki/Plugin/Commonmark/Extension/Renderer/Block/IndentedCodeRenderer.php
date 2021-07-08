@@ -26,12 +26,12 @@ final class IndentedCodeRenderer implements BlockRendererInterface
 {
     /**
      * @param IndentedCode             $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
-     * @return HtmlElement
+     * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, bool $inTightList = false)
+    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {
         if (!($block instanceof IndentedCode)) {
             throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
@@ -39,10 +39,5 @@ final class IndentedCodeRenderer implements BlockRendererInterface
 
         return "\n  " . Xml::escape($block->getStringContent());
 
-//        return new HtmlElement(
-//            'pre',
-//            [],
-//            new HtmlElement('code', $attrs, Xml::escape($block->getStringContent()))
-//        );
     }
 }

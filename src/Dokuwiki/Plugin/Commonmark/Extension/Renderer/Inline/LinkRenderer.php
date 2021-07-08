@@ -34,7 +34,7 @@ final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareI
      * @param Link                     $inline
      * @param ElementRendererInterface $DWRenderer
      *
-     * @return HtmlElement
+     * @return string
      */
     public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
     {
@@ -48,10 +48,6 @@ final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareI
         if (!($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl()))) {
             $attrs['href'] = $inline->getUrl();
         }
-
-//        if (isset($inline->data['title'])) {
-//            $attrs['title'] = $inline->data['title'];
-//        }
 
         if (isset($attrs['target']) && $attrs['target'] === '_blank' && !isset($attrs['rel'])) {
             $attrs['rel'] = 'noopener noreferrer';

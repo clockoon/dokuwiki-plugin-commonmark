@@ -18,17 +18,16 @@ namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\BlockQuote;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
 use League\CommonMark\Block\Renderer\BlockRendererInterface;
 
 final class BlockQuoteRenderer implements BlockRendererInterface
 {
     /**
      * @param BlockQuote               $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
-     * @return HtmlElement
+     * @return string
      */
     public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {
@@ -43,14 +42,8 @@ final class BlockQuoteRenderer implements BlockRendererInterface
 
         if ($filling === '') {
             return '>' . $DWRenderer->getOption('inner_separator', "\n");
-            //return new HtmlElement('blockquote', $attrs, $DWRenderer->getOption('inner_separator', "\n"));
         }
 
         return '>' . $filling . $DWRenderer->getOption('inner_separator', "\n");
-        //return new HtmlElement(
-        //    'blockquote',
-        //    $attrs,
-        //    $DWRenderer->getOption('inner_separator', "\n") . $filling . $DWRenderer->getOption('inner_separator', "\n")
-        //);
     }
 }

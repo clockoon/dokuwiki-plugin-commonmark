@@ -32,7 +32,7 @@ final class HtmlInlineRenderer implements InlineRendererInterface, Configuration
 
     /**
      * @param HtmlInline               $inline
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      *
      * @return string
      */

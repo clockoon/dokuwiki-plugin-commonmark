@@ -32,7 +32,7 @@ final class ImageRenderer implements InlineRendererInterface, ConfigurationAware
 
     /**
      * @param Image                    $inline
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      *
      * @return string
      */

@@ -24,10 +24,10 @@ final class ThematicBreakRenderer implements BlockRendererInterface
 {
     /**
      * @param ThematicBreak            $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
-     * @return HtmlElement
+     * @return string
      */
     public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, bool $inTightList = false)
     {

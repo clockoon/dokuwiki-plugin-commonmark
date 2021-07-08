@@ -1,18 +1,19 @@
 <?php
 
 /*
- * This file is part of the league/commonmark package.
+ * This file is part of the clockoon/dokuwiki-commonmark-plugin package.
  *
- * (c) Colin O'Dell <colinodell@gmail.com>
+ * (c) Sungbin Jeon <clockoon@gmail.com>
  *
- * Original code based on the CommonMark JS reference parser (https://bitly.com/commonmark-js)
- *  - (c) John MacFarlane
+ * Original code based on the followings:
+ * - CommonMark JS reference parser (https://bitly.com/commonmark-js) (c) John MacFarlane
+ * - league/commonmark (https://github.com/thephpleague/commonmark) (c) Colin O'Dell <colinodell@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
+namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Heading;
@@ -23,10 +24,10 @@ final class HeadingRenderer implements BlockRendererInterface
 {
     /**
      * @param Heading                  $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
-     * @return HtmlElement
+     * @return string
      */
     public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {

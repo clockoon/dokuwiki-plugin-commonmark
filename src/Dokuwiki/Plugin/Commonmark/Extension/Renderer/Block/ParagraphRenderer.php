@@ -18,7 +18,6 @@ namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Paragraph;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
 use League\CommonMark\Block\Renderer\BlockRendererInterface;
 
 final class ParagraphRenderer implements BlockRendererInterface
@@ -35,14 +34,6 @@ final class ParagraphRenderer implements BlockRendererInterface
         if (!($block instanceof Paragraph)) {
             throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
         }
-
-        //if ($inTightList) {
-        //    return $htmlRenderer->renderInlines($block->children());
-        //}
-
-        //$attrs = $block->getData('attributes', []);
-
-        //return new HtmlElement('p', $attrs, $htmlRenderer->renderInlines($block->children()));
 
         $result = $DWRenderer->renderInlines($block->children());
         $result = preg_replace('/\n/', ' ', $result); # remove unwanted newline for DW

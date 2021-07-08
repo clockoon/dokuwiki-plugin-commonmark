@@ -20,14 +20,13 @@ use League\CommonMark\Block\Element\ListItem;
 use League\CommonMark\Block\Element\Paragraph;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Extension\TaskList\TaskListItemMarker;
-use League\CommonMark\HtmlElement;
 use League\CommonMark\Block\Renderer\BlockRendererInterface;
 
 final class ListItemRenderer implements BlockRendererInterface
 {
     /**
      * @param ListItem                 $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string

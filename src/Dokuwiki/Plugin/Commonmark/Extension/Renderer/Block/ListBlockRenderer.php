@@ -25,10 +25,10 @@ final class ListBlockRenderer implements BlockRendererInterface
 {
     /**
      * @param ListBlock                $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
-     * @return HtmlElement
+     * @return string
      */
     public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {
@@ -57,13 +57,5 @@ final class ListBlockRenderer implements BlockRendererInterface
         $result = preg_replace("/<li>/", $tag, $result); # add DW list bullet
         return "  " . $result;
 
-        //return new HtmlElement(
-        //    $tag,
-        //    $attrs,
-        //    $htmlRenderer->getOption('inner_separator', "\n") . $htmlRenderer->renderBlocks(
-        //        $block->children(),
-        //        $block->isTight()
-        //    ) . $htmlRenderer->getOption('inner_separator', "\n")
-        //);
     }
 }

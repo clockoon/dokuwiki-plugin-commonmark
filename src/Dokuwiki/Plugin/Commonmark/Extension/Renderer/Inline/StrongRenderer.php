@@ -26,7 +26,7 @@ final class StrongRenderer implements InlineRendererInterface
      * @param Strong                   $inline
      * @param ElementRendererInterface $htmlRenderer
      *
-     * @return HtmlElement
+     * @return string
      */
     public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
     {

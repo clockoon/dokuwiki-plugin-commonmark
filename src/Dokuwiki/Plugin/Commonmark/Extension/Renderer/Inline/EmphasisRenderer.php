@@ -24,7 +24,7 @@ final class EmphasisRenderer implements InlineRendererInterface
 {
     /**
      * @param Emphasis                 $inline
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      *
      * @return string
      */

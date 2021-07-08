@@ -18,7 +18,6 @@ namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
 use League\CommonMark\Util\Xml;
 use League\CommonMark\Block\Renderer\BlockRendererInterface;
 
@@ -26,12 +25,12 @@ final class FencedCodeRenderer implements BlockRendererInterface
 {
     /**
      * @param FencedCode               $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param ElementRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
-     * @return HtmlElement
+     * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, bool $inTightList = false)
+    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {
         if (!($block instanceof FencedCode)) {
             throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
@@ -42,25 +41,30 @@ final class FencedCodeRenderer implements BlockRendererInterface
         $infoWords = $block->getInfoWords();
 
         if (\count($infoWords) !== 0 && \strlen($infoWords[0]) !== 0) {
-            if ($infoWords[0] == 'html') { 
-                # only supports html block; it is not possible for express html inline span in Commonmark syntax
-                $entertag = 'HTML';
-                $exittag = 'HTML';
-            }
-            elseif ($infoWords[0] == 'nowiki' || $infoWords[0] == 'dokuwiki' ) { 
-                # support DW <nowiki> syntax & passing DW codes (e.g. tag, struct, etc.)
-                $entertag = $infoWords[0];
-                $exittag = $infoWords[0];
-            }
-            else {
-                $entertag = 'code ' . $infoWords[0];
-                $exittag = 'code';
+            switch($infoWords[0]) {
+                case 'html':
+                    # only supports html block; it is not possible for express html inline span in Commonmark syntax
+                    $entertag = 'HTML';
+                    $exittag = 'HTML';    
+                    break;
+                case 'nowiki':
+                    # DW <nowiki> syntax
+                    $entertag = $infoWords[0];
+                    $exittag = $infoWords[0];
+                    break;
+                case 'dokuwiki':
+                    # passing DW codes (e.g. tag, struct, etc.)
+                    $   entertag = '';
+                    $exittag = '';
+                    break;
+                default:
+                    $entertag = 'code ' . $infoWords[0];
+                    $exittag = 'code';
             }
         }
-
-        $result = '<' . $entertag . ">\n" . 
-        Xml::escape($block->getStringContent()) . "</" . $exittag . ">";
+        $result = Xml::escape($block->getStringContent());
+        if ($entertag):
+            $result = '<' . $entertag . ">\n" . $result . "</" . $exittag . ">";
         return $result;
-
     }
 }
