@@ -13,7 +13,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
+namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
 use League\CommonMark\Block\Element\AbstractBlock;
 use League\CommonMark\Block\Element\Heading;
@@ -35,7 +35,7 @@ final class HeadingRenderer implements BlockRendererInterface
             throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
         }
 
-        $heading = str_repeat('=', max(6 - $block->getLevel(), 1)) . ' ';
+        $heading = str_repeat('=', max(7 - $block->getLevel(), 1)) . ' ';
 
         $result = $heading . $DWRenderer->renderInlines($block->children()) . strrev($heading);
 
