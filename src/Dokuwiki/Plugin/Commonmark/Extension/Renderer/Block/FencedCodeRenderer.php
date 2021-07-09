@@ -54,7 +54,7 @@ final class FencedCodeRenderer implements BlockRendererInterface
                     break;
                 case 'dokuwiki':
                     # passing DW codes (e.g. tag, struct, etc.)
-                    $   entertag = '';
+                    $entertag = '';
                     $exittag = '';
                     break;
                 default:
@@ -65,6 +65,7 @@ final class FencedCodeRenderer implements BlockRendererInterface
         $result = Xml::escape($block->getStringContent());
         if ($entertag):
             $result = '<' . $entertag . ">\n" . $result . "</" . $exittag . ">";
+        endif;
         return $result;
     }
 }
