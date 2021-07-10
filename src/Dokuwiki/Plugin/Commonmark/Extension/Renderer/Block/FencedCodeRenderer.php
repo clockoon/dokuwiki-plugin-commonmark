@@ -40,6 +40,7 @@ final class FencedCodeRenderer implements BlockRendererInterface
 
         $infoWords = $block->getInfoWords();
 
+        $entertag = '';
         if (\count($infoWords) !== 0 && \strlen($infoWords[0]) !== 0) {
             switch($infoWords[0]) {
                 case 'html':
