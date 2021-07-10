@@ -35,7 +35,7 @@ final class HeadingRenderer implements BlockRendererInterface
             throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
         }
 
-        $heading = str_repeat('=', max(7 - $block->getLevel(), 1)) . ' ';
+        $heading = str_repeat('=', max(7 - $block->getLevel(), 2)) . ' ';
 
         $result = $heading . $DWRenderer->renderInlines($block->children()) . strrev($heading);
 
