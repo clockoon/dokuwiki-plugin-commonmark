@@ -35,6 +35,7 @@ final class TextRenderer implements InlineRendererInterface
             throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
-        return Xml::escape($inline->getContent());
+        //return Xml::escape($inline->getContent());
+        return $inline->getContent();
     }
 }
