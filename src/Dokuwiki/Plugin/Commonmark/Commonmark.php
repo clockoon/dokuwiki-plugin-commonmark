@@ -4,7 +4,7 @@ namespace Dokuwiki\Plugin\Commonmark;
 
 use League\CommonMark\Environment;
 use League\CommonMark\DocParser;
-use Dokuwiki\Plugin\Commonmark\Extension\CommonMarkToDokuWikiExtension;
+use Dokuwiki\Plugin\Commonmark\Extension\CommonmarkToDokuwikiExtension;
 
 class Commonmark {
     public static function RendtoDW($markdown): string {
