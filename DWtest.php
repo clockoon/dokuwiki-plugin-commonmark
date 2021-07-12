@@ -53,7 +53,7 @@ dddd
 
 $test5 = '`foo`
 
-*ITALIC* **BOLD** ***BOLDITALIC***  
+*ITALIC* **BOLD** ***BOLDITALIC*** and ~~strikethrough~~
 HARD break [yahoo](yahoo.com) <p>hello</p> <a>hello</a> ![](test.jpg)';
 
 $test6 = 'hello, its footnote and [link] test [^1] [^2].
@@ -64,7 +64,7 @@ $test6 = 'hello, its footnote and [link] test [^1] [^2].
 [^2]: secondfootnote.com
 [^3]: this is an anonymous footnote.';
 
-$test = $test6;
+$test = $test5;
 echo $test . "\n\n=========================\n\n";
 echo Commonmark::RendtoDW($test);
 
