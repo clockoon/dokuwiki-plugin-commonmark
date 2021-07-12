@@ -1,9 +1,16 @@
 <?php
-/**
- * Commonmark Plugin test
+/*
+ * This file is part of the clockoon/dokuwiki-commonmark-plugin package.
+ *
+ * (c) Sungbin Jeon <clockoon@gmail.com>
+ *
+ * Original code based on the followings:
+ * - CommonMark JS reference parser (https://bitly.com/commonmark-js) (c) John MacFarlane
+ * - league/commonmark (https://github.com/thephpleague/commonmark) (c) Colin O'Dell <colinodell@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 
  require_once __DIR__.'/src/bootstrap.php';
 
