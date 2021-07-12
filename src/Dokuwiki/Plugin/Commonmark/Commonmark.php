@@ -7,6 +7,7 @@ use League\CommonMark\DocParser;
 use Dokuwiki\Plugin\Commonmark\Extension\CommonmarkToDokuwikiExtension;
 use Dokuwiki\Plugin\Commonmark\Extension\FootnoteToDokuwikiExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
+use Dokuwiki\Plugin\Commonmark\Extension\TableExtension;
 
 class Commonmark {
     public static function RendtoDW($markdown): string {
@@ -27,6 +28,7 @@ class Commonmark {
         $environment->addExtension(new CommonMarkToDokuWikiExtension());
         $environment->addExtension(new FootnoteToDokuwikiExtension());
         $environment->addExtension(new StrikethroughExtension());
+        $environment->addExtension(new TableExtension());
 
         $environment->mergeConfig([
             'html_input' => 'strip',
