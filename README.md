@@ -14,7 +14,7 @@ While there are many Markdown plugins (for example, [markdownu](https://www.doku
 Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most Markdown syntax have corresponding DW syntax, so it will work without problem; but in some cases, Markdown syntax do not matches DW specification one-by-one, or vice versa. Here is a list of known ambiguities between Commonmark and Dokuwiki, and its implements in the plugin:
 
 - Since DW do not parses raw HTML without `htmlok` config, [HTML blocks](https://spec.commonmark.org/0.30/#html-blocks) is passed.
-- When adding `html` as info string in [Fenced code blocks](https://spec.commonmark.org/0.30/#fenced-code-blocks), it parse to DW's [<HTML>](https://www.dokuwiki.org/wiki:syntax#embedding_html_and_php) block; In case of `nowiki`, `<nowiki>` syntax will be parsed; if `dokuwiki`, raw DW code will be passed.
+- When adding `html` as info string in [Fenced code blocks](https://spec.commonmark.org/0.30/#fenced-code-blocks), it parse to DW's [\<HTML\>](https://www.dokuwiki.org/wiki:syntax#embedding_html_and_php) block; In case of `nowiki`, `<nowiki>` syntax will be parsed; if `dokuwiki`, raw DW code will be passed.
 
 Commonmark plugin conflits with other markdown-related plugins, including Mdpage.
 
