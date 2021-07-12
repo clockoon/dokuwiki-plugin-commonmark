@@ -19,6 +19,5 @@ Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most M
 Commonmark plugin conflits with other markdown-related plugins, including Mdpage.
 
 ## Todo
-- add footnote support
 - add table support
 - add strikethrough
