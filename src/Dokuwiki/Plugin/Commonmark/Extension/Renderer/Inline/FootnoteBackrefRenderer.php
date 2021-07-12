@@ -13,44 +13,29 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Extension\Footnote\Node\FootnoteBackref;
 use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
-use League\CommonMark\Util\RegexHelper;
 
-final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class FootnoteBackrefRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
-    /**
-     * @var ConfigurationInterface
-     */
-    protected $config;
+    /** @var ConfigurationInterface */
+    private $config;
 
-    /**
-     * @param Link                     $inline
-     * @param ElementRendererInterface $DWRenderer
-     *
-     * @return string
-     */
     public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
     {
-        if (!($inline instanceof Link)) {
+        if (!($inline instanceof FootnoteBackref)) {
             throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
-
-        $attrs = $inline->getData('attributes', []);
-
-        $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
-        if (!($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl()))) {
-            $attrs['href'] = $inline->getUrl();
-        }
-
-        $result = '[[' . $attrs['href'] . '|' . $DWRenderer->renderInlines($inline->children()) . ']]';
-        return $result;
+        
+        return '';
     }
 
     public function setConfiguration(ConfigurationInterface $configuration)

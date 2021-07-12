@@ -5,6 +5,7 @@ namespace Dokuwiki\Plugin\Commonmark;
 use League\CommonMark\Environment;
 use League\CommonMark\DocParser;
 use Dokuwiki\Plugin\Commonmark\Extension\CommonmarkToDokuwikiExtension;
+use Dokuwiki\Plugin\Commonmark\Extension\FootnoteToDokuwikiExtension;
 
 class Commonmark {
     public static function RendtoDW($markdown): string {
@@ -23,6 +24,11 @@ class Commonmark {
     public static function createDWEnvironment(): Environment {
         $environment = new Environment();
         $environment->addExtension(new CommonMarkToDokuWikiExtension());
+        $environment->addExtension(new FootnoteToDokuwikiExtension());
+
+        $environment->mergeConfig([
+            'html_input' => 'strip',
+        ]);
 
         return $environment;
     }

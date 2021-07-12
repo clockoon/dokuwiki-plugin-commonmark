@@ -13,44 +13,47 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Extension\Footnote\Node\FootnoteRef;
+use League\CommonMark\Extension\Footnote\Node\Footnote;
 use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Link;
+use League\CommonMark\Inline\Renderer\InlineRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
-use League\CommonMark\Util\RegexHelper;
 
-final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class FootnoteRefRenderer implements InlineRendererInterface, ConfigurationAwareInterface
 {
-    /**
-     * @var ConfigurationInterface
-     */
-    protected $config;
+    /** @var ConfigurationInterface */
+    private $config;
 
-    /**
-     * @param Link                     $inline
-     * @param ElementRendererInterface $DWRenderer
-     *
-     * @return string
-     */
     public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
     {
-        if (!($inline instanceof Link)) {
+
+        if (!($inline instanceof FootnoteRef)) {
             throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
         $attrs = $inline->getData('attributes', []);
 
-        $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
-        if (!($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl()))) {
-            $attrs['href'] = $inline->getUrl();
+        $document = $inline->parent()->parent();
+        $walker = $document->walker();
+        $title = $inline->getReference()->getTitle();
+
+        while ($event = $walker->next()) {
+            $node = $event->getNode();
+            if ($node instanceof Footnote && $title == $node->getReference()->getLabel()) {
+                $text = $DWRenderer->renderBlock($node->children()[0]);
+                break;
+            }
         }
 
-        $result = '[[' . $attrs['href'] . '|' . $DWRenderer->renderInlines($inline->children()) . ']]';
+        $result = '(('. $text. '))';
         return $result;
+
     }
 
     public function setConfiguration(ConfigurationInterface $configuration)
