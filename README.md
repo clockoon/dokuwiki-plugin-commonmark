@@ -17,3 +17,7 @@ Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most M
 - When adding `html` as info string in [Fenced code blocks](https://spec.commonmark.org/0.30/#fenced-code-blocks), it parse to DW's [\<HTML\>](https://www.dokuwiki.org/wiki:syntax#embedding_html_and_php) block; In case of `nowiki`, `<nowiki>` syntax will be parsed; if `dokuwiki`, raw DW code will be passed.
 
 Commonmark plugin would conflit with other markdown-related plugins, including Mdpage.
+
+## License
+
+- icons: Apache License from https://www.iconbolt.com/

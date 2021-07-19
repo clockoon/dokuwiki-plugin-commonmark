@@ -64,6 +64,14 @@ $test6 = 'hello, its footnote and [link] test [^1] [^2].
 [^2]: secondfootnote.com
 [^3]: this is an anonymous footnote.';
 
+$test7 = '
+| Left columns  | Right columns |
+| ------------- |:-------------:|
+| left foo      | right foo     |
+| left bar      | right bar     |
+| left baz      | right baz     |
+';
+
 $test = $test5;
 echo $test . "\n\n=========================\n\n";
 echo Commonmark::RendtoDW($test);
