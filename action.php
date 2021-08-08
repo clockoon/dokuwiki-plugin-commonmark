@@ -24,19 +24,13 @@
      */
     public function register(Doku_Event_Handler $controller) {
         $controller->register_hook('PARSER_WIKITEXT_PREPROCESS', 'BEFORE', $this,
-                                   '_commonmarkparse');
+                                   '_commonmarkparse');        
     }
 
-    /**
-     * Parse commonmark text
-     * TEST: <!DOCTYPE markdown> to "PASSED!!"
-     */
     public function _commonmarkparse(Doku_Event $event, $param) {
         if (preg_match('/\A<!DOCTYPE markdown>/',$event->data)) {
             $event->data = Commonmark::RendtoDW(preg_replace('/\A<!DOCTYPE markdown>/','',$event->data));
-            #$event->data = "PASSED";
         }
-
+        
     }
-
 }
