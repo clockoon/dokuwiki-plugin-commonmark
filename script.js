@@ -9,4 +9,49 @@ if (typeof window.toolbar !== 'undefined') {
         insert: "<!DOCTYPE markdown>",
         block: "true"
     };
+    toolbar[toolbar.length] = {
+        type: "picker",
+        title: "Markdown syntax",
+        icon: "../../plugins/commonmark/images/markdown_white.png",
+	class: "pk_hl",
+        key: "",
+        list: [
+	    {
+		type: "format",
+		title: toolbar[0].title,
+		icon: "bold.png",
+		key: "",
+		open: "**",
+		close: "**",
+		block: "false"
+	    },
+	    {
+		type: "format",
+		title: toolbar[1].title,
+		icon: "italic.png",
+		key: "",
+		open: "_",
+		close: "_",
+		block: "false"
+	    },
+	    {
+		type: "format",
+		title: toolbar[3].title,
+		icon: "mono.png",
+		key: "",
+		open: "`",
+		close: "`",
+		block: "false"
+	    },
+	    {
+		type: "format",
+		title: toolbar[4].title,
+		icon: "bold.png",
+		key: "",
+		open: "~~",
+		close: "~~",
+		block: "false"
+	    }
+	]
+    };
 }
