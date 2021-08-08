@@ -30,8 +30,8 @@ if (typeof window.toolbar !== 'undefined') {
 		title: toolbar[1].title,
 		icon: "italic.png",
 		key: "",
-		open: "_",
-		close: "_",
+		open: "*",
+		close: "*",
 		block: "false"
 	    },
 	    {
