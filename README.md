@@ -18,6 +18,8 @@ Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most M
 
 Commonmark plugin would conflit with other markdown-related plugins, including Mdpage.
 
+Due to the concept, section edit will not work, or at least recognize the section as broken snippet rather than expected. This bug will be fixed in later version.
+
 ## License
 
 - icons: Apache License from https://www.iconbolt.com/
