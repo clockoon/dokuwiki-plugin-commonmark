@@ -66,8 +66,10 @@ final class FencedCodeRenderer implements BlockRendererInterface
                     $exittag = 'code';
             }
         }
-            
-        $result = Xml::escape($block->getStringContent());
+
+        # Do not escape code block; BELIEVE DOKUWIKI!
+        #$result = Xml::escape($block->getStringContent());
+        $result = $block->getStringContent();
         if ($entertag):
             $result = '<' . $entertag . ">\n" . $result . "</" . $exittag . ">";
         endif;

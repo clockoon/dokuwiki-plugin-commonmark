@@ -35,6 +35,8 @@ final class CodeRenderer implements InlineRendererInterface
             throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
-        return "''" . Xml::escape($inline->getContent()) . "''";
+        # Do not escape code; BELEIVE DOKUWIKI!
+        #return "''" . Xml::escape($inline->getContent()) . "''";
+        return "''" . $inline->getContent() . "''";
     }
 }
