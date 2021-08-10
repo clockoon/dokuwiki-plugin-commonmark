@@ -40,7 +40,10 @@ final class FencedCodeRenderer implements BlockRendererInterface
 
         $infoWords = $block->getInfoWords();
 
-        $entertag = '';
+        # for default value not specifying infoword
+        $entertag = 'code';
+        $exittag = 'code';
+        
         if (\count($infoWords) !== 0 && \strlen($infoWords[0]) !== 0) {
             switch($infoWords[0]) {
                 case 'html':
@@ -63,6 +66,7 @@ final class FencedCodeRenderer implements BlockRendererInterface
                     $exittag = 'code';
             }
         }
+            
         $result = Xml::escape($block->getStringContent());
         if ($entertag):
             $result = '<' . $entertag . ">\n" . $result . "</" . $exittag . ">";
