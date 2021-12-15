@@ -39,9 +39,13 @@ final class FootnoteRefRenderer implements InlineRendererInterface, Configuratio
 
         $attrs = $inline->getData('attributes', []);
 
+        # get parents iteratively until get top-level document
         $document = $inline->parent()->parent();
+        while (get_class($document)!='League\CommonMark\Block\Element\Document'){
+            $document = $document->parent();
+        }
         $walker = $document->walker();
-        $title = $inline->getReference()->getTitle();
+        $title = $inline->getReference()->getLabel();
 
         while ($event = $walker->next()) {
             $node = $event->getNode();
