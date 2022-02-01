@@ -37,6 +37,7 @@ final class CodeRenderer implements InlineRendererInterface
 
         # Do not escape code; BELEIVE DOKUWIKI!
         #return "''" . Xml::escape($inline->getContent()) . "''";
-        return "''" . $inline->getContent() . "''";
+        # add %% between inline content to block additional render
+        return "''%%" . $inline->getContent() . "%%''";
     }
 }

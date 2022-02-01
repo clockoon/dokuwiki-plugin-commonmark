@@ -72,7 +72,20 @@ $test7 = '
 | left baz      | right baz     |
 ';
 
-$test = $test5;
+$test7 = ' list footnote test[^3];
+- **test**.
+- test2[^2].
+  - nested list test[^1].
+
+outside footnote test[^4].
+
+[^1]: footnote test 1.
+[^2]: footnote test 2.
+[^3]: normal text test.
+[^4]: normal text test 2.
+';
+
+$test = $test7;
 echo $test . "\n\n=========================\n\n";
 echo Commonmark::RendtoDW($test);
 
