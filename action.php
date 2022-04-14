@@ -28,7 +28,11 @@
     }
 
     public function _commonmarkparse(Doku_Event $event, $param) {
-        if (preg_match('/\A<!DOCTYPE markdown>/',$event->data)) {
+        // check force_commonmark option; if 1, ignore doctype
+        if ($this->getConf('force_commonmark')) {
+            $event->data = Commonmark::RendtoDW($event->data);
+        }
+        elseif (preg_match('/\A<!DOCTYPE markdown>/',$event->data)) {
             $event->data = Commonmark::RendtoDW(preg_replace('/\A<!DOCTYPE markdown>/','',$event->data));
         }
         
