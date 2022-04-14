@@ -10,6 +10,7 @@ While there are many Markdown plugins (for example, [markdownu](https://www.doku
 2. if exists, parses entire document and renders to DW syntax
 3. After pre-rendering, passes the result to DW parser and process as usual
 
+If you want to parse all DW pages as Commonmark without specific doctype, you can enable `force_commonmark` option on config. But this action may conflit with existing document of DW markup, so please use it carefully.
 ## Compatibility
 Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most Markdown syntax have corresponding DW syntax, so it will work without problem; but in some cases, Markdown syntax do not matches DW specification one-by-one, or vice versa. Here is a list of known ambiguities between Commonmark and Dokuwiki, and its implements in the plugin:
 
