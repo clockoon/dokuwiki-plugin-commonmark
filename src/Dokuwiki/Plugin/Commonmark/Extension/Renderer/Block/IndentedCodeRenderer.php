@@ -37,7 +37,9 @@ final class IndentedCodeRenderer implements BlockRendererInterface
             throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
         }
 
-        return "\n  " . Xml::escape($block->getStringContent());
+        # As in FencedCodeRenderer.php, do not escape code block
+        # return "\n  " . Xml::escape($block->getStringContent());
+        return "\n  " . $block->getStringContent();
 
     }
 }
