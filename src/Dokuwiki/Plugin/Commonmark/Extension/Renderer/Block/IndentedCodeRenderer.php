@@ -39,7 +39,6 @@ final class IndentedCodeRenderer implements BlockRendererInterface
 
         # As in FencedCodeRenderer.php, do not escape code block
         # return "\n  " . Xml::escape($block->getStringContent());
-        return "\n  " . $block->getStringContent();
-
+        return "\n  " . preg_replace("/[\n\r]/", "\n  ", $block->getStringContent());
     }
 }
