@@ -15,12 +15,12 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Strong;
 
-final class StrongRenderer implements InlineRendererInterface
+final class StrongRenderer implements NodeRendererInterface
 {
     /**
      * @param Strong                   $inline
@@ -34,6 +34,6 @@ final class StrongRenderer implements InlineRendererInterface
             throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
-        return '**' .  $DWRenderer->renderInlines($inline->children()) . '**';
+        return '**' .  $DWRenderer->renderNodes($inline->children()) . '**';
     }
 }

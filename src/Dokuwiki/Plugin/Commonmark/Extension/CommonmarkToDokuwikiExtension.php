@@ -15,30 +15,30 @@
 namespace DokuWiki\Plugin\Commonmark\Extension;
 
 use League\CommonMark\Extension\ExtensionInterface;
-use League\CommonMark\ConfigurableEnvironmentInterface;
-use League\CommonMark\Block\Element as BlockElement;
-use League\CommonMark\Block\Parser as BlockParser;
+use League\CommonMark\Environment\EnvironmentBuilderInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block as BlockElement;
+use League\CommonMark\Extension\CommonMark\Parser\Block as BlockParser;
 use Dokuwiki\Plugin\Commonmark\Extension\Renderer\Block as BlockRenderer;
-use League\CommonMark\Inline\Element as InlineElement;
-use League\CommonMark\Inline\Parser as InlineParser;
+use League\CommonMark\Extension\CommonMark\Node\Inline as InlineElement;
+use League\CommonMark\Extension\CommonMark\Parser\Inline as InlineParser;
 use Dokuwiki\Plugin\Commonmark\Extension\Renderer\Inline as InlineRenderer;
 use League\CommonMark\Util\ConfigurationInterface;
 use League\CommonMark\Delimiter\Processor\EmphasisDelimiterProcessor;
 
 final class CommonMarkToDokuWikiExtension implements ExtensionInterface {
-    public function register(ConfigurableEnvironmentInterface $environment) {
+    public function register(EnvironmentBuilderInterface $environment): void {
         $environment
-            ->addBlockParser(new BlockParser\BlockQuoteParser(),      70)
-            ->addBlockParser(new BlockParser\ATXHeadingParser(),      60)
-            ->addBlockParser(new BlockParser\FencedCodeParser(),      50)
-            //->addBlockParser(new BlockParser\HtmlBlockParser(),       40) # No raw HTML processing on Commonmarkside
-            ->addBlockParser(new BlockParser\SetExtHeadingParser(),   30)
-            ->addBlockParser(new BlockParser\ThematicBreakParser(),   20)
-            ->addBlockParser(new BlockParser\ListParser(),            10)
-            ->addBlockParser(new BlockParser\IndentedCodeParser(),  -100)
-            ->addBlockParser(new BlockParser\LazyParagraphParser(), -200)
+            ->addBlockStartParser(new BlockParser\BlockQuoteStartParser(),      70)
+            ->addBlockStartParser(new BlockParser\HeadingStartParser(),      60)
+            ->addBlockStartParser(new BlockParser\FencedCodeStartParser(),      50)
+            //->addBlockStartParser(new BlockParser\HtmlBlockParser(),       40) # No raw HTML processing on Commonmarkside
+            //->addBlockStartParser(new BlockParser\SetExtHeadingParser(),   30)
+            ->addBlockStartParser(new BlockParser\ThematicBreakStartParser(),   20)
+            ->addBlockStartParser(new BlockParser\ListBlockStartParser(),            10)
+            ->addBlockStartParser(new BlockParser\IndentedCodeStartParser(),  -100)
+            //->addBlockStartParser(new BlockParser\LazyParagraphParser(), -200)
 
-            ->addInlineParser(new InlineParser\NewlineParser(),     200)
+            //->addInlineParser(new InlineParser\NewlineParser(),     200)
             ->addInlineParser(new InlineParser\BacktickParser(),    150)
             ->addInlineParser(new InlineParser\EscapableParser(),    80)
             ->addInlineParser(new InlineParser\EntityParser(),       70)
@@ -48,25 +48,25 @@ final class CommonMarkToDokuWikiExtension implements ExtensionInterface {
             ->addInlineParser(new InlineParser\OpenBracketParser(),  20)
             ->addInlineParser(new InlineParser\BangParser(),         10)
 
-            ->addBlockRenderer(BlockElement\BlockQuote::class,    new BlockRenderer\BlockQuoteRenderer(),    0)
-            ->addBlockRenderer(BlockElement\Document::class,      new BlockRenderer\DocumentRenderer(),      0)
-            ->addBlockRenderer(BlockElement\FencedCode::class,    new BlockRenderer\FencedCodeRenderer(),    0)
-            ->addBlockRenderer(BlockElement\Heading::class,       new BlockRenderer\HeadingRenderer(),       0)
-            //->addBlockRenderer(BlockElement\HtmlBlock::class,     new BlockRenderer\HtmlBlockRenderer(),     0) # No raw HTML processing on Commonmarkside
-            ->addBlockRenderer(BlockElement\IndentedCode::class,  new BlockRenderer\IndentedCodeRenderer(),  0)
-            ->addBlockRenderer(BlockElement\ListBlock::class,     new BlockRenderer\ListBlockRenderer(),     0)
-            ->addBlockRenderer(BlockElement\ListItem::class,      new BlockRenderer\ListItemRenderer(),      0)
-            ->addBlockRenderer(BlockElement\Paragraph::class,     new BlockRenderer\ParagraphRenderer(),     0)
-            ->addBlockRenderer(BlockElement\ThematicBreak::class, new BlockRenderer\ThematicBreakRenderer(), 0)
+            ->addRenderer(BlockElement\BlockQuote::class,    new BlockRenderer\BlockQuoteRenderer(),    0)
+            ->addRenderer(BlockElement\Document::class,      new BlockRenderer\DocumentRenderer(),      0)
+            ->addRenderer(BlockElement\FencedCode::class,    new BlockRenderer\FencedCodeRenderer(),    0)
+            ->addRenderer(BlockElement\Heading::class,       new BlockRenderer\HeadingRenderer(),       0)
+            //->addRenderer(BlockElement\HtmlBlock::class,     new BlockRenderer\HtmlBlockRenderer(),     0) # No raw HTML processing on Commonmarkside
+            ->addRenderer(BlockElement\IndentedCode::class,  new BlockRenderer\IndentedCodeRenderer(),  0)
+            ->addRenderer(BlockElement\ListBlock::class,     new BlockRenderer\ListBlockRenderer(),     0)
+            ->addRenderer(BlockElement\ListItem::class,      new BlockRenderer\ListItemRenderer(),      0)
+            ->addRenderer(BlockElement\Paragraph::class,     new BlockRenderer\ParagraphRenderer(),     0)
+            ->addRenderer(BlockElement\ThematicBreak::class, new BlockRenderer\ThematicBreakRenderer(), 0)
 
-            ->addInlineRenderer(InlineElement\Code::class,       new InlineRenderer\CodeRenderer(),       0)
-            ->addInlineRenderer(InlineElement\Emphasis::class,   new InlineRenderer\EmphasisRenderer(),   0)
-            ->addInlineRenderer(InlineElement\HtmlInline::class, new InlineRenderer\HtmlInlineRenderer(), 0)
-            ->addInlineRenderer(InlineElement\Image::class,      new InlineRenderer\ImageRenderer(),      0)
-            ->addInlineRenderer(InlineElement\Link::class,       new InlineRenderer\LinkRenderer(),       0)
-            ->addInlineRenderer(InlineElement\Newline::class,    new InlineRenderer\NewlineRenderer(),    0)
-            ->addInlineRenderer(InlineElement\Strong::class,     new InlineRenderer\StrongRenderer(),     0)
-            ->addInlineRenderer(InlineElement\Text::class,       new InlineRenderer\TextRenderer(),       0)
+            ->addRenderer(InlineElement\Code::class,       new InlineRenderer\CodeRenderer(),       0)
+            ->addRenderer(InlineElement\Emphasis::class,   new InlineRenderer\EmphasisRenderer(),   0)
+            ->addRenderer(InlineElement\HtmlInline::class, new InlineRenderer\HtmlInlineRenderer(), 0)
+            ->addRenderer(InlineElement\Image::class,      new InlineRenderer\ImageRenderer(),      0)
+            ->addRenderer(InlineElement\Link::class,       new InlineRenderer\LinkRenderer(),       0)
+            ->addRenderer(InlineElement\Newline::class,    new InlineRenderer\NewlineRenderer(),    0)
+            ->addRenderer(InlineElement\Strong::class,     new InlineRenderer\StrongRenderer(),     0)
+            ->addRenderer(InlineElement\Text::class,       new InlineRenderer\TextRenderer(),       0)
         ;
 
         $deprecatedUseAsterisk = $environment->getConfig('use_asterisk', ConfigurationInterface::MISSING);

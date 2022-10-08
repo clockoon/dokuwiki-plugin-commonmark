@@ -17,14 +17,14 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Node\Block\AbstractBlock;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Extension\Footnote\Node\Footnote;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
 
-final class FootnoteRenderer implements BlockRendererInterface, ConfigurationAwareInterface
+final class FootnoteRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /** @var ConfigurationInterface */
     private $config;

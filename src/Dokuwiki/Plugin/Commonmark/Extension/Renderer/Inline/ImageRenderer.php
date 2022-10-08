@@ -15,7 +15,7 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Image;
@@ -23,7 +23,7 @@ use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
 use League\CommonMark\Util\RegexHelper;
 
-final class ImageRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class ImageRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /**
      * @var ConfigurationInterface
@@ -51,7 +51,7 @@ final class ImageRenderer implements InlineRendererInterface, ConfigurationAware
             $attrs['src'] = $inline->getUrl();
         }
 
-        $alt = $DWRenderer->renderInlines($inline->children());
+        $alt = $DWRenderer->renderNodes($inline->children());
         $alt = \preg_replace('/\<[^>]*alt="([^"]*)"[^>]*\>/', '$1', $alt);
         $attrs['alt'] = \preg_replace('/\<[^>]*\>/', '', $alt);
 

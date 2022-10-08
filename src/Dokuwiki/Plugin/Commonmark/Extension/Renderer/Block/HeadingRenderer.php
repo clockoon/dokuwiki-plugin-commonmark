@@ -15,12 +15,13 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\Heading;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-final class HeadingRenderer implements BlockRendererInterface
+final class HeadingRenderer implements NodeRendererInterface
 {
     /**
      * @param Heading                  $block
@@ -29,15 +30,13 @@ final class HeadingRenderer implements BlockRendererInterface
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
     {
-        if (!($block instanceof Heading)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        Heading::assertInstanceOf($node);
 
         $heading = str_repeat('=', max(7 - $block->getLevel(), 2)) . ' ';
 
-        $result = $heading . $DWRenderer->renderInlines($block->children()) . strrev($heading);
+        $result = $heading . $DWRenderer->renderNodes($node->children()) . strrev($heading);
 
         return $result;
     }

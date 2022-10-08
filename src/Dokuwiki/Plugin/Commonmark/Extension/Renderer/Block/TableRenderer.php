@@ -18,12 +18,12 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Node\Block\AbstractBlock;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Extension\Table\Table;
 
-final class TableRenderer implements BlockRendererInterface
+final class TableRenderer implements NodeRendererInterface
 {
     public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {

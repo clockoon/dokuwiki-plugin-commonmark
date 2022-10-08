@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension;
 
-use League\CommonMark\ConfigurableEnvironmentInterface;
+use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
 use League\CommonMark\Extension\ExtensionInterface;
 use League\CommonMark\Extension\Footnote\Event\AnonymousFootnotesListener;
@@ -37,7 +37,7 @@ use Dokuwiki\Plugin\Commonmark\Extension\Renderer\Block\FootnoteRenderer;
 
 final class FootnotetoDokuwikiExtension implements ExtensionInterface
 {
-    public function register(ConfigurableEnvironmentInterface $environment)
+    public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment->addBlockParser(new FootnoteParser(), 51);
         $environment->addInlineParser(new AnonymousFootnoteRefParser(), 35);

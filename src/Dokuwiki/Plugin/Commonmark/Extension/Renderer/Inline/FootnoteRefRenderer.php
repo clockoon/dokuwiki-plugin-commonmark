@@ -21,11 +21,11 @@ use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Extension\Footnote\Node\FootnoteRef;
 use League\CommonMark\Extension\Footnote\Node\Footnote;
 use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
 
-final class FootnoteRefRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class FootnoteRefRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /** @var ConfigurationInterface */
     private $config;

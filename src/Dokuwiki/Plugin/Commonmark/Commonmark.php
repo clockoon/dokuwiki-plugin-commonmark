@@ -2,8 +2,8 @@
 
 namespace Dokuwiki\Plugin\Commonmark;
 
-use League\CommonMark\Environment;
-use League\CommonMark\DocParser;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Parser\MarkdownParser;
 use Dokuwiki\Plugin\Commonmark\Extension\CommonmarkToDokuwikiExtension;
 use Dokuwiki\Plugin\Commonmark\Extension\FootnoteToDokuwikiExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
@@ -15,7 +15,7 @@ class Commonmark {
         $environment = self::createDWEnvironment();
         
         # create parser
-        $parser = new DocParser($environment);
+        $parser = new MarkdownParser($environment);
         # create Dokuwiki Renderer
         $DWRenderer = new DWRenderer($environment);
 

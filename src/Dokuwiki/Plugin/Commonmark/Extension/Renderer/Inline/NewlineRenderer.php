@@ -15,12 +15,12 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Newline;
 
-final class NewlineRenderer implements InlineRendererInterface
+final class NewlineRenderer implements NodeRendererInterface
 {
     /**
      * @param Newline                  $inline

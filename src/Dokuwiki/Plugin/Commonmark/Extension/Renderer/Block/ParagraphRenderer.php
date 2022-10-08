@@ -15,12 +15,13 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\Paragraph;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
-
-final class ParagraphRenderer implements BlockRendererInterface
+use League\CommonMark\Node\Block\Paragraph;
+use League\CommonMark\Node\Block\TightBlockInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
+final class ParagraphRenderer implements NodeRendererInterface
 {
     /**
      * @param Paragraph                $block
@@ -29,13 +30,11 @@ final class ParagraphRenderer implements BlockRendererInterface
      *
      * @return HtmlElement|string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
     {
-        if (!($block instanceof Paragraph)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        Paragraph::assertInstanceOf($node);
 
-        $result = $DWRenderer->renderInlines($block->children());
+        $result = $DWRenderer->renderNodes($node->children());
         $result = preg_replace('/\n/', ' ', $result); # remove unwanted newline for DW
 
         return $result . $DWRenderer->getOption('inner_separator', "\n");;

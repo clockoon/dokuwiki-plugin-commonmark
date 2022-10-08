@@ -18,12 +18,12 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Node\Block\AbstractBlock;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Extension\Table\TableCell;
 
-final class TableCellRenderer implements BlockRendererInterface
+final class TableCellRenderer implements NodeRendererInterface
 {
     public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
     {
@@ -55,7 +55,7 @@ final class TableCellRenderer implements BlockRendererInterface
                 break;
         }
 
-        $result = $separator . $lmargin . $DWRenderer->renderInlines($block->children()) . $rmargin;
+        $result = $separator . $lmargin . $DWRenderer->renderNodes($block->children()) . $rmargin;
         return $result;
 
     }

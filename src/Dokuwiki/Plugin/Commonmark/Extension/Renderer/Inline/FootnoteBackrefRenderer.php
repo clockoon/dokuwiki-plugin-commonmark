@@ -20,11 +20,11 @@ namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Extension\Footnote\Node\FootnoteBackref;
 use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
 
-final class FootnoteBackrefRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class FootnoteBackrefRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /** @var ConfigurationInterface */
     private $config;

@@ -15,13 +15,14 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Code;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\Xml;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-final class CodeRenderer implements InlineRendererInterface
+final class CodeRenderer implements NodeRendererInterface
 {
     /**
      * @param Code                     $inline
@@ -29,15 +30,13 @@ final class CodeRenderer implements InlineRendererInterface
      *
      * @return string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
     {
-        if (!($inline instanceof Code)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        Code::assertInstanceOf($node);
 
         # Do not escape code; BELEIVE DOKUWIKI!
         #return "''" . Xml::escape($inline->getContent()) . "''";
         # add %% between inline content to block additional render
-        return "''%%" . $inline->getContent() . "%%''";
+        return "''%%" . $node->getContent() . "%%''";
     }
 }

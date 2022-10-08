@@ -15,12 +15,12 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Emphasis;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Emphasis;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
 
-final class EmphasisRenderer implements InlineRendererInterface
+final class EmphasisRenderer implements NodeRendererInterface
 {
     /**
      * @param Emphasis                 $inline
@@ -28,12 +28,10 @@ final class EmphasisRenderer implements InlineRendererInterface
      *
      * @return string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
     {
-        if (!($inline instanceof Emphasis)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($in));
-        }
+        Emphasis::assertInstanceOf($node);
 
-        return '//' .  $DWRenderer->renderInlines($inline->children()) . '//';
+        return '//' .  $DWRenderer->renderNodes($node->children()) . '//';
     }
 }

@@ -85,7 +85,20 @@ outside footnote test[^4].
 [^4]: normal text test 2.
 ';
 
-$test = $test7;
+$test8 = '
+Before the code
+
+```
+fenced line 1
+fenced line 2
+```
+
+    indent line 1
+    indent line 2
+
+After the code';
+
+$test = $test8;
 echo $test . "\n\n=========================\n\n";
 echo Commonmark::RendtoDW($test);
 

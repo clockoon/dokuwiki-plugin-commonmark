@@ -15,13 +15,13 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Text;
 use League\CommonMark\Util\Xml;
 
-final class TextRenderer implements InlineRendererInterface
+final class TextRenderer implements NodeRendererInterface
 {
     /**
      * @param Text                     $inline

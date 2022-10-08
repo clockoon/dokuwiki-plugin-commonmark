@@ -15,7 +15,7 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\Inline\Element\AbstractInline;
 use League\CommonMark\Inline\Element\Link;
@@ -23,7 +23,7 @@ use League\CommonMark\Util\ConfigurationAwareInterface;
 use League\CommonMark\Util\ConfigurationInterface;
 use League\CommonMark\Util\RegexHelper;
 
-final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class LinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /**
      * @var ConfigurationInterface
@@ -49,7 +49,7 @@ final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareI
             $attrs['href'] = $inline->getUrl();
         }
 
-        $result = '[[' . $attrs['href'] . '|' . $DWRenderer->renderInlines($inline->children()) . ']]';
+        $result = '[[' . $attrs['href'] . '|' . $DWRenderer->renderNodes($inline->children()) . ']]';
         return $result;
     }
 
