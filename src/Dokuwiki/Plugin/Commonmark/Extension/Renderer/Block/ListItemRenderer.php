@@ -27,16 +27,16 @@ final class ListItemRenderer implements NodeRendererInterface
 {
     /**
      * @param ListItem                 $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         ListItem::assertInstanceOf($node);
 
-        $result = $DWRenderer->renderNodes($block->children(), $inTightList);
+        $result = $DWRenderer->renderNodes($node->children());
         if (\substr($result, 0, 1) === '<' && !$this->startsTaskListItem($block)) {
             $result = "\n" . $result;
         }

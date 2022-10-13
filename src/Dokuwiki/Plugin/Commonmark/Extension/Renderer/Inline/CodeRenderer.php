@@ -26,17 +26,17 @@ final class CodeRenderer implements NodeRendererInterface
 {
     /**
      * @param Code                     $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         Code::assertInstanceOf($node);
 
         # Do not escape code; BELEIVE DOKUWIKI!
         #return "''" . Xml::escape($inline->getContent()) . "''";
         # add %% between inline content to block additional render
-        return "''%%" . $node->getContent() . "%%''";
+        return "''%%" . $node->getLiteral() . "%%''";
     }
 }

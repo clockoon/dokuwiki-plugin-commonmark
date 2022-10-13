@@ -16,11 +16,12 @@
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
 use League\CommonMark\Renderer\NodeRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Image;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
+
 use League\CommonMark\Util\RegexHelper;
 
 final class ImageRenderer implements NodeRendererInterface, ConfigurationAwareInterface
@@ -32,31 +33,29 @@ final class ImageRenderer implements NodeRendererInterface, ConfigurationAwareIn
 
     /**
      * @param Image                    $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($inline instanceof Image)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        Image::assertInstanceOf($node);
 
-        $attrs = $inline->getData('attributes', []);
+        $attrs = $node->data->get('attributes');
 
         $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
         if ($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl())) {
             $attrs['src'] = '';
         } else {
-            $attrs['src'] = $inline->getUrl();
+            $attrs['src'] = $node->getUrl();
         }
 
-        $alt = $DWRenderer->renderNodes($inline->children());
+        $alt = $DWRenderer->renderNodes($node->children());
         $alt = \preg_replace('/\<[^>]*alt="([^"]*)"[^>]*\>/', '$1', $alt);
         $attrs['alt'] = \preg_replace('/\<[^>]*\>/', '', $alt);
 
-        if (isset($inline->data['title'])) {
-            $attrs['title'] = $inline->data['title'];
+        if (isset($node->data['title'])) {
+            $attrs['title'] = $node->data['title'];
         }
 
         $result = '{{' . $attrs['src'];
@@ -65,7 +64,7 @@ final class ImageRenderer implements NodeRendererInterface, ConfigurationAwareIn
         return $result;
     }   
 
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->config = $configuration;
     }

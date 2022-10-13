@@ -72,7 +72,7 @@ $test7 = '
 | left baz      | right baz     |
 ';
 
-$test7 = ' list footnote test[^3];
+$test8 = ' list footnote test[^3];
 - **test**.
 - test2[^2].
   - nested list test[^1].
@@ -85,7 +85,7 @@ outside footnote test[^4].
 [^4]: normal text test 2.
 ';
 
-$test8 = '
+$test9 = '
 Before the code
 
 ```
@@ -98,7 +98,7 @@ fenced line 2
 
 After the code';
 
-$test = $test8;
+$test = $test7;
 echo $test . "\n\n=========================\n\n";
 echo Commonmark::RendtoDW($test);
 

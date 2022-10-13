@@ -18,24 +18,22 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Node\Block\AbstractBlock;
+use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\NodeRendererInterface;
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Extension\Table\TableSection;
 
 final class TableSectionRenderer implements NodeRendererInterface
 {
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer)
     {
-        if (!$block instanceof TableSection) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
-        }
+        TableSection::assertInstanceOf($node);
 
-        if (!$block->hasChildren()) {
+        if (!$node->hasChildren()) {
             return '';
         }
 
-        $result = $DWRenderer->renderBlocks($block->children());
+        $result = $DWRenderer->renderNodes($node->children());
         return $result;
 
     }

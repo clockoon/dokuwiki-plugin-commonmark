@@ -18,34 +18,24 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Node\Block\AbstractBlock;
+use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\NodeRendererInterface;
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Extension\Table\TableCell;
 
 final class TableCellRenderer implements NodeRendererInterface
 {
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!$block instanceof TableCell) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
-        }
+        TableCell::assertInstanceOf($node);
 
         # block type indicator on DW
-        $separator = '';
-        switch ($block->type) {
-            case 'td':
-                $separator = '|';
-                break;
-            case 'th':
-                $separator = '^';
-                break;
-        }
+        $separator = $node->getType() === TableCell::TYPE_HEADER ? '^' : '|';
 
         # align indicator on DW
         $lmargin = ' ';
         $rmargin = ' ';
-        switch($block->align) {
+        switch($node->getAlign()) {
             case "right":
                 $lmargin = '  ';
                 break;
@@ -55,7 +45,7 @@ final class TableCellRenderer implements NodeRendererInterface
                 break;
         }
 
-        $result = $separator . $lmargin . $DWRenderer->renderNodes($block->children()) . $rmargin;
+        $result = $separator . $lmargin . $DWRenderer->renderNodes($node->children()) . $rmargin;
         return $result;
 
     }

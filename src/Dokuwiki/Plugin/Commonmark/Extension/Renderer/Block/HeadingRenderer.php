@@ -25,16 +25,16 @@ final class HeadingRenderer implements NodeRendererInterface
 {
     /**
      * @param Heading                  $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         Heading::assertInstanceOf($node);
 
-        $heading = str_repeat('=', max(7 - $block->getLevel(), 2)) . ' ';
+        $heading = str_repeat('=', max(7 - $node->getLevel(), 2)) . ' ';
 
         $result = $heading . $DWRenderer->renderNodes($node->children()) . strrev($heading);
 

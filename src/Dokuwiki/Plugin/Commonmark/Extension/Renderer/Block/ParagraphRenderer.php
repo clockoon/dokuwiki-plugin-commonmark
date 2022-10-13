@@ -30,7 +30,7 @@ final class ParagraphRenderer implements NodeRendererInterface
      *
      * @return HtmlElement|string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer)
     {
         Paragraph::assertInstanceOf($node);
 

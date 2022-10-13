@@ -26,17 +26,17 @@ final class IndentedCodeRenderer implements NodeRendererInterface
 {
     /**
      * @param IndentedCode             $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         IndentedCode::assertInstanceOf($node);
 
         # As in FencedCodeRenderer.php, do not escape code block
-        # return "\n  " . Xml::escape($block->getStringContent());
-        return "\n  " . preg_replace("/[\n\r]/", "\n  ", $node->getStringContent());
+        # return "\n  " . Xml::escape($node->getStringContent());
+        return "\n  " . preg_replace("/[\n\r]/", "\n  ", $node->getLiteral());
     }
 }

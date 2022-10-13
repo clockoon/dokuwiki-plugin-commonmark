@@ -20,11 +20,12 @@ class Commonmark {
         $DWRenderer = new DWRenderer($environment);
 
         $document = $parser->parse($markdown);
-        return $DWRenderer->renderBlock($document);
+        return $DWRenderer->renderNode($document);
     }
 
     public static function createDWEnvironment(): Environment {
-        $environment = new Environment();
+        $config = [];
+        $environment = new Environment($config);
         $environment->addExtension(new CommonMarkToDokuWikiExtension());
         $environment->addExtension(new FootnoteToDokuwikiExtension());
         $environment->addExtension(new StrikethroughExtension());

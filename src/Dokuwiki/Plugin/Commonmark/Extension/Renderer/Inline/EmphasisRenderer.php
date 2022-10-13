@@ -24,11 +24,11 @@ final class EmphasisRenderer implements NodeRendererInterface
 {
     /**
      * @param Emphasis                 $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         Emphasis::assertInstanceOf($node);
 

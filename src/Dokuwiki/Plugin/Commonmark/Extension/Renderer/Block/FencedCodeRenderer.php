@@ -26,12 +26,12 @@ final class FencedCodeRenderer implements NodeRendererInterface
 {
     /**
      * @param FencedCode               $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         FencedCode::assertInstanceOf($node);
 
@@ -67,8 +67,8 @@ final class FencedCodeRenderer implements NodeRendererInterface
         }
 
         # Do not escape code block; BELIEVE DOKUWIKI!
-        #$result = Xml::escape($block->getStringContent());
-        $result = $node->getStringContent();
+        #$result = Xml::escape($node->getStringContent());
+        $result = $node->getLiteral();
         if ($entertag):
             $result = '<' . $entertag . ">\n" . $result . "</" . $exittag . ">";
         endif;

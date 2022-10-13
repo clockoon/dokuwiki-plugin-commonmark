@@ -16,26 +16,24 @@
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
 use League\CommonMark\Renderer\NodeRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Text;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Util\Xml;
 
 final class TextRenderer implements NodeRendererInterface
 {
     /**
      * @param Text                     $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer)
     {
-        if (!($inline instanceof Text)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        Text::assertInstanceOf($node);
 
         //return Xml::escape($inline->getContent());
-        return $inline->getContent();
+        return $node->getLiteral();
     }
 }

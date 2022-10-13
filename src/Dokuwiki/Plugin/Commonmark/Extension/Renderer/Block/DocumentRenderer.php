@@ -24,12 +24,12 @@ final class DocumentRenderer implements NodeRendererInterface
 {
     /**
      * @param Document                 $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): string
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         Document::assertInstanceOf($node);
 

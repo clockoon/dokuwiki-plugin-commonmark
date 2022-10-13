@@ -16,9 +16,9 @@
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
 use League\CommonMark\Renderer\NodeRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Strong;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 
 final class StrongRenderer implements NodeRendererInterface
 {
@@ -28,12 +28,10 @@ final class StrongRenderer implements NodeRendererInterface
      *
      * @return string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer)
     {
-        if (!($inline instanceof Strong)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        Strong::assertInstanceOf($node);
 
-        return '**' .  $DWRenderer->renderNodes($inline->children()) . '**';
+        return '**' .  $DWRenderer->renderNodes($node->children()) . '**';
     }
 }

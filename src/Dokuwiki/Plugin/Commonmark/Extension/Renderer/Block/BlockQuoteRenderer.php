@@ -26,18 +26,18 @@ final class BlockQuoteRenderer implements NodeRendererInterface
 {
     /**
      * @param BlockQuote               $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         BlockQuote::assertInstanceOf($node);
 
         $attrs = $node->data->get('attributes');
 
-        $filling = $DWRenderer->renderNodes($block->children());
+        $filling = $DWRenderer->renderNodes($node->children());
         $filling = preg_replace('/\n/', "\n>", $filling);
 
         if ($filling === '') {

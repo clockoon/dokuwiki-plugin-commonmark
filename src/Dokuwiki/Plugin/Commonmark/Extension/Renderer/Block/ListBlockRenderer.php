@@ -25,12 +25,12 @@ final class ListBlockRenderer implements NodeRendererInterface
 {
     /**
      * @param ListBlock                $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): \Stringable
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         ListBlock::assertInstanceOf($node);
 

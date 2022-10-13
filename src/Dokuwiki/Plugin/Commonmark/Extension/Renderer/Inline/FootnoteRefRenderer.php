@@ -17,40 +17,37 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Extension\Footnote\Node\FootnoteRef;
 use League\CommonMark\Extension\Footnote\Node\Footnote;
-use League\CommonMark\Inline\Element\AbstractInline;
+use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\NodeRendererInterface;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
 final class FootnoteRefRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /** @var ConfigurationInterface */
-    private $config;
+    private ConfigurationInterface $config;
 
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer)
     {
+        FootnoteRef::assertInstanceOf($node);
 
-        if (!($inline instanceof FootnoteRef)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
-
-        $attrs = $inline->getData('attributes', []);
+        $attrs = $node->data->getData('attributes');
 
         # get parents iteratively until get top-level document
-        $document = $inline->parent()->parent();
-        while (get_class($document)!='League\CommonMark\Block\Element\Document'){
+        $document = $node->parent()->parent();
+        while (get_class($document)!='League\CommonMark\Node\Block\Document'){
             $document = $document->parent();
         }
         $walker = $document->walker();
-        $title = $inline->getReference()->getLabel();
+        $title = $node->getReference()->getLabel();
 
         while ($event = $walker->next()) {
             $node = $event->getNode();
             if ($node instanceof Footnote && $title == $node->getReference()->getLabel()) {
-                $text = $DWRenderer->renderBlock($node->children()[0]);
+                $text = $DWRenderer->renderNode($node->children()[0]);
                 break;
             }
         }
@@ -60,7 +57,7 @@ final class FootnoteRefRenderer implements NodeRendererInterface, ConfigurationA
 
     }
 
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->config = $configuration;
     }

@@ -33,19 +33,19 @@ final class HtmlInlineRenderer implements NodeRendererInterface, ConfigurationAw
 
     /**
      * @param HtmlInline               $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return string
      */
-    public function render(Node $node, ChildNodeRendererInterface $childRenderer): string
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
         HtmlInline::assertInstanceOf($node);
 
-        if ($this->config->get('html_input') === EnvironmentInterface::HTML_INPUT_STRIP) {
+        if ($this->config->get('html_input') === HtmlFilter::STRIP) {
             return '';
         }
 
-        if ($this->config->get('html_input') === EnvironmentInterface::HTML_INPUT_ESCAPE) {
+        if ($this->config->get('html_input') === HtmlFilter::ESCAPE) {
             return \htmlspecialchars($node->getContent(), \ENT_NOQUOTES);
         }
 

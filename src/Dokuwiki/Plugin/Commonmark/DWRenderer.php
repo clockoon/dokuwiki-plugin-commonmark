@@ -20,6 +20,8 @@ use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Node\Inline\AbstractInline;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Environment\EnvironmentInterface;
+use League\CommonMark\Node\Block\Document;
+use League\CommonMark\Node\Node;
 
 /**
  * Renders a parsed AST to DW
@@ -57,7 +59,7 @@ final class DWRenderer implements ChildNodeRendererInterface
      */
     public function getOption(string $option, $default = null)
     {
-        return $this->environment->getConfig('renderer/' . $option, $default);
+        return $this->environment->getConfiguration()->get('renderer/' . $option, $default);
     }
 
     public function renderNodes(iterable $nodes): string
@@ -67,7 +69,7 @@ final class DWRenderer implements ChildNodeRendererInterface
         $isFirstItem = true;
 
         foreach ($nodes as $node) {
-            if (! $isFirstItem && $node instanceof AbstractBlock) {
+            if (! $isFirstItem && $node instanceof Node) {
                 $output .= $this->getBlockSeparator();
             }
 
