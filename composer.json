@@ -24,7 +24,7 @@
         }
     },
     "require": {
-        "league/commonmark": "2.0.*"
+        "league/commonmark": "2.1.*"
     },
     "config": {
         "discard-changes": true
