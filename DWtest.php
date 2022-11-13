@@ -98,8 +98,42 @@ fenced line 2
 
 After the code';
 
-$test = $test7;
-echo $test . "\n\n=========================\n\n";
-echo Commonmark::RendtoDW($test);
+$test10 = <<<MD
+---
+tags: 
+  - tag1
+  - tag2
+---
 
+Before the code
+
+```
+fenced line 1
+fenced line 2
+```
+
+    indent line 1
+    indent line 2
+
+After the code
+MD;
+
+$test11 = <<<MD
+---
+layout: post
+title: I Love Markdown
+tags:
+  - test
+  - example
+---
+
+# Hello World!
+MD;
+
+$test = $test10;
+echo $test . "\n\n=========================\n\n";
+$result = Commonmark::RendtoDW($test);
+echo $result;
+//$frontmatter = Commonmark::ExtractFrontmatter($test);
+//print_r($frontmatter);
 ?>
