@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ebe8f7510dd6d75de91e1713ee5721be",
+    "content-hash": "5728c49cc8175ae34b6e5b3e8bd51e5b",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -83,16 +83,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.0.4",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "39031adf944087c1d5a4fd9875c65e668f986e96"
+                "reference": "7cdfc405d1c0ac925965f4f04e75a2652120e9c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/39031adf944087c1d5a4fd9875c65e668f986e96",
-                "reference": "39031adf944087c1d5a4fd9875c65e668f986e96",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/7cdfc405d1c0ac925965f4f04e75a2652120e9c0",
+                "reference": "7cdfc405d1c0ac925965f4f04e75a2652120e9c0",
                 "shasum": ""
             },
             "require": {
@@ -111,11 +111,11 @@
                 "ext-json": "*",
                 "github/gfm": "0.29.0",
                 "michelf/php-markdown": "^1.4",
-                "phpstan/phpstan": "^0.12.88",
+                "phpstan/phpstan": "^0.12.88 || ^1.0.0",
                 "phpunit/phpunit": "^9.5.5",
                 "scrutinizer/ocular": "^1.8.1",
                 "symfony/finder": "^5.3",
-                "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0",
+                "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0",
                 "unleashedtech/php-coding-standard": "^3.1",
                 "vimeo/psalm": "^4.7.3"
             },
@@ -125,7 +125,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.1-dev"
+                    "dev-main": "2.2-dev"
                 }
             },
             "autoload": {
@@ -182,7 +182,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-26T21:09:14+00:00"
+            "time": "2022-02-26T21:20:51+00:00"
         },
         {
             "name": "league/config",
