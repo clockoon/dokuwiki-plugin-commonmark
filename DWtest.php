@@ -118,8 +118,7 @@ fenced line 2
 After the code
 MD;
 
-$test11 = <<<MD
----
+$test11_p = '---
 layout: post
 title: I Love Markdown
 tags:
@@ -128,9 +127,13 @@ tags:
 ---
 
 # Hello World!
+';
+
+$test11 = <<<MD
+$test11_p
 MD;
 
-$test = $test10;
+$test = $test11_p;
 echo $test . "\n\n=========================\n\n";
 $result = Commonmark::RendtoDW($test);
 echo $result;

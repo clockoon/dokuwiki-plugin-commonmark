@@ -29,17 +29,17 @@ class Commonmark {
 
         # extract tags only
         $tags = $frontmatter['tags'];
-        $tagStr = "{{tag>";
+        $tagStr = "\n\n{{tag>";
         foreach ($tags as $tag) {
             $tagStr = $tagStr. "\"". $tag. "\" ";
         }
-        $tagStr = $tagStr. "}}\n\n";
-        echo $tagStr;
+        $tagStr = $tagStr. "}}";
+        //echo $tagStr;
 
         $document = $parser->parse($markdownOnly);
         $renderResult = $DWRenderer->renderNode($document);
 
-        return $renderResult;
+        return $renderResult.$tagStr;
     }
 
     // Temporary implementation: separate method for frontmatter extraction
