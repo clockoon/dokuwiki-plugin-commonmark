@@ -7,3 +7,4 @@
  */
 
 $meta['force_commonmark'] = array('onoff');
+$meta['frontmatter_tag'] = array('multichoice', '_choices' => array('off', 'upper', 'lower'));

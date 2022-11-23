@@ -118,7 +118,8 @@ fenced line 2
 After the code
 MD;
 
-$test11_p = '---
+$test11_p = '
+---
 layout: post
 title: I Love Markdown
 tags:
@@ -133,10 +134,10 @@ $test11 = <<<MD
 $test11_p
 MD;
 
-$test = $test11_p;
+$test = ltrim($test11_p);
 echo $test . "\n\n=========================\n\n";
 $result = Commonmark::RendtoDW($test);
 echo $result;
-//$frontmatter = Commonmark::ExtractFrontmatter($test);
-//print_r($frontmatter);
+$frontmatter = Commonmark::ExtractFrontmatter($test);
+print_r($frontmatter);
 ?>

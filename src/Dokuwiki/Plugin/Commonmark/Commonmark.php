@@ -12,7 +12,7 @@ use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
 class Commonmark {
-    public static function RendtoDW($markdown): string {
+    public static function RendtoDW($markdown, $frontmatter_tag = 'off'): string {
         # create environment
         $environment = self::createDWEnvironment();
         
@@ -29,7 +29,7 @@ class Commonmark {
 
         # extract tags only
         $tags = $frontmatter['tags'];
-        $tagStr = "\n\n{{tag>";
+        $tagStr = "{{tag>";
         foreach ($tags as $tag) {
             $tagStr = $tagStr. "\"". $tag. "\" ";
         }
@@ -39,7 +39,13 @@ class Commonmark {
         $document = $parser->parse($markdownOnly);
         $renderResult = $DWRenderer->renderNode($document);
 
-        return $renderResult.$tagStr;
+        if($frontmatter_tag == 'off') {
+            return $renderResult;
+        } elseif($frontmatter_tag == 'upper') {
+            return $tagStr."\n\n".$renderResult;
+        } else {
+            return $renderResult."\n\n".$tagStr;
+        }
     }
 
     // Temporary implementation: separate method for frontmatter extraction
