@@ -25,16 +25,19 @@ class Commonmark {
         $FMresult = self::ExtractFrontmatter($markdown);
         $frontmatter = $FMresult->getFrontMatter();
         $markdownOnly = $FMresult->getContent();
+        $tagStr = ''; # initialize tag string
         //print_r($frontmatter);
 
         # extract tags only
-        $tags = $frontmatter['tags'];
-        $tagStr = "{{tag>";
-        foreach ($tags as $tag) {
-            $tagStr = $tagStr. "\"". $tag. "\" ";
+        if(!empty($frontmatter)) {
+            $tags = $frontmatter['tags'];
+            $tagStr = "{{tag>";
+            foreach ($tags as $tag) {
+                $tagStr = $tagStr. "\"". $tag. "\" ";
+            }
+            $tagStr = $tagStr. "}}";
+            //echo $tagStr;    
         }
-        $tagStr = $tagStr. "}}";
-        //echo $tagStr;
 
         $document = $parser->parse($markdownOnly);
         $renderResult = $DWRenderer->renderNode($document);
