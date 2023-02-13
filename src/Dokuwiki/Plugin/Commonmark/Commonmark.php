@@ -29,14 +29,16 @@ class Commonmark {
         //print_r($frontmatter);
 
         # extract tags only
-        if(!empty($frontmatter)) {
-            $tags = $frontmatter['tags'];
-            $tagStr = "{{tag>";
-            foreach ($tags as $tag) {
-                $tagStr = $tagStr. "\"". $tag. "\" ";
+        if(!empty($frontmatter) && gettype($frontmatter) == "array") { // frontmatter must be array if valid
+            if (array_key_exists('tags', $frontmatter)) {
+                $tags = $frontmatter['tags'];
+                $tagStr = "{{tag>";
+                foreach ($tags as $tag) {
+                    $tagStr = $tagStr. "\"". $tag. "\" ";
+                }
+                $tagStr = $tagStr. "}}";
+                //echo $tagStr;    
             }
-            $tagStr = $tagStr. "}}";
-            //echo $tagStr;    
         }
 
         $document = $parser->parse($markdownOnly);
