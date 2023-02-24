@@ -44,7 +44,8 @@ final class LinkRenderer implements NodeRendererInterface, ConfigurationAwareInt
 
         $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
         if (!($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($node->getUrl()))) {
-            $attrs['href'] = $node->getUrl();
+            // replace slash to colon for compatible to DW link syntax
+            $attrs['href'] = str_replace('/', ':', $node->getUrl()); 
         }
 
         $result = '[[' . $attrs['href'] . '|' . $DWRenderer->renderNodes($node->children()) . ']]';
