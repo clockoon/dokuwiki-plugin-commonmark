@@ -41,6 +41,8 @@ class Commonmark {
             }
         }
 
+        // pre-processing: convert slash inside wikilink to colon & image wikilinks
+        $markdownOnly = self::ParseDokuwikiWikilinks($markdownOnly);
         $document = $parser->parse($markdownOnly);
         $renderResult = $DWRenderer->renderNode($document);
 
@@ -59,6 +61,15 @@ class Commonmark {
         $frontMatterExtension = new FrontMatterExtension();
         $result = $frontMatterExtension->getFrontMatterParser()->parse($markdown);
 
+        return $result;
+    }
+
+    // replace slash in MD wikilink to colon to match DW syntax
+    public static function ParseDokuwikiWikilinks($text) {
+        $pattern = "/(?:\[\[\b|(?!^)\G)[^\/|\]]*\K\/+/";
+        $result = preg_replace($pattern, ":", $text);
+        $pattern = "/!\[\[(.*)\]\]/";
+        $result = preg_replace($pattern, '{{$1}}', $result);
         return $result;
     }
 

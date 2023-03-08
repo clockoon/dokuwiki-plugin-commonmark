@@ -128,6 +128,8 @@ tags:
 ---
 
 # Hello World!
+It is [[wiki/link|Wikilink]].
+[wikilink](wiki/link) [external link](https://external.link)
 ';
 
 $test11 = <<<MD
@@ -138,6 +140,6 @@ $test = ltrim($test11_p);
 echo $test . "\n\n=========================\n\n";
 $result = Commonmark::RendtoDW($test);
 echo $result;
-$frontmatter = Commonmark::ExtractFrontmatter($test);
-print_r($frontmatter);
+//$frontmatter = Commonmark::ExtractFrontmatter($test);
+//print_r($frontmatter);
 ?>
