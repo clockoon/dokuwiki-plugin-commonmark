@@ -12,7 +12,11 @@
  * file that was distributed with this source code.
  */
 
+ $image_pattern = "";
  require_once __DIR__.'/src/bootstrap.php';
+ if (file_exists( __DIR__.'/user.php')) {
+    require_once __DIR__.'/user.php';
+ }
 
  use Dokuwiki\Plugin\Commonmark\Commonmark;
 
@@ -31,12 +35,12 @@
         // check force_commonmark option; if 1, ignore doctype
         if ($this->getConf('force_commonmark')) {
             $markdown = ltrim($event->data);
-            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'));
+            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'), $GLOBALS['image_pattern']);
         }
         elseif (preg_match('/\A<!DOCTYPE markdown>/',$event->data)) {
             $markdown = preg_replace('/\A<!DOCTYPE markdown>\n/','',$event->data);
             $markdown = ltrim($markdown);
-            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'));
+            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'), $GLOBALS['image_pattern']);
         }
     }
 }
