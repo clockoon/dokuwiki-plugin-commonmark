@@ -130,6 +130,8 @@ tags:
 # Hello World!
 It is [[wiki/link|Wikilink]].
 [wikilink](wiki/link) [external link](https://external.link)
+
+![[media/test.jpg]]
 ';
 
 $test11 = <<<MD

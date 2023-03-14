@@ -12,11 +12,7 @@
  * file that was distributed with this source code.
  */
 
- $image_pattern = "";
  require_once __DIR__.'/src/bootstrap.php';
- if (file_exists( __DIR__.'/user.php')) {
-    require_once __DIR__.'/user.php';
- }
 
  use Dokuwiki\Plugin\Commonmark\Commonmark;
 
@@ -32,7 +28,11 @@
     }
 
     public function _commonmarkparse(Doku_Event $event, $param) {
-        global $image_pattern;
+        $image_pattern = "";
+        if (file_exists( __DIR__.'/user.php')) {
+           require_once __DIR__.'/user.php';
+        }
+        
         // check force_commonmark option; if 1, ignore doctype
         if ($this->getConf('force_commonmark')) {
             $markdown = ltrim($event->data);
