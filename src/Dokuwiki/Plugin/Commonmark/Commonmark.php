@@ -12,7 +12,7 @@ use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
 class Commonmark {
-    public static function RendtoDW($markdown, $frontmatter_tag = 'off', $image_pattern = ""): string {
+    public static function RendtoDW($markdown, $frontmatter_tag = 'off'): string {
         # create environment
         $environment = self::createDWEnvironment();
         
@@ -42,7 +42,7 @@ class Commonmark {
         }
 
         // pre-processing: convert slash inside wikilink to colon & image wikilinks
-        $markdownOnly = self::ParseDokuwikiWikilinks($markdownOnly, $image_pattern);
+        $markdownOnly = self::ParseDokuwikiWikilinks($markdownOnly);
         $document = $parser->parse($markdownOnly);
         $renderResult = $DWRenderer->renderNode($document);
 
@@ -65,11 +65,10 @@ class Commonmark {
     }
 
     // replace slash in MD wikilink to colon to match DW syntax
-    public static function ParseDokuwikiWikilinks($text, $image_pattern) {
+    public static function ParseDokuwikiWikilinks($text) {
         $pattern = "/(?:\[\[\b|(?!^)\G)[^\/|\]]*\K\/+/";
         $result = preg_replace($pattern, ":", $text);
-        // image link conversion
-        $pattern = "/!\[\[".$image_pattern."(.*)\]\]/";
+        $pattern = "/!\[\[(.*)\]\]/";
         $result = preg_replace($pattern, '{{$1}}', $result);
         return $result;
     }
