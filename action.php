@@ -32,16 +32,15 @@
     }
 
     public function _commonmarkparse(Doku_Event $event, $param) {
-        global $image_pattern;
         // check force_commonmark option; if 1, ignore doctype
         if ($this->getConf('force_commonmark')) {
             $markdown = ltrim($event->data);
-            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'), $image_pattern);
+            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'), $GLOBALS['image_pattern']);
         }
         elseif (preg_match('/\A<!DOCTYPE markdown>/',$event->data)) {
             $markdown = preg_replace('/\A<!DOCTYPE markdown>\n/','',$event->data);
             $markdown = ltrim($markdown);
-            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'), $image_pattern);
+            $event->data = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'), $GLOBALS['image_pattern']);
         }
     }
 }
