@@ -17,35 +17,33 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Extension\Footnote\Node\Footnote;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-final class FootnoteRenderer implements BlockRendererInterface, ConfigurationAwareInterface
+final class FootnoteRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /** @var ConfigurationInterface */
-    private $config;
+    private ConfigurationInterface $config;
 
     /**
-     * @param Footnote                 $block
-     * @param ElementRendererInterface $htmlRenderer
+     * @param Footnote                 $nofr
+     * @param ChildNodeRendererInterface $htmlRenderer
      * @param bool                     $inTightList
      *
      * @return HtmlElement
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): \Stringable
     {
-        if (!($block instanceof Footnote)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        Footnote::assertInstanceOf($node);
 
         return '';
     }
 
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->config = $configuration;
     }

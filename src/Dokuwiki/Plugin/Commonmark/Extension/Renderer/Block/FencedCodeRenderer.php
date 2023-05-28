@@ -15,30 +15,29 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\FencedCode;
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\Xml;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-final class FencedCodeRenderer implements BlockRendererInterface
+final class FencedCodeRenderer implements NodeRendererInterface
 {
     /**
      * @param FencedCode               $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($block instanceof FencedCode)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        FencedCode::assertInstanceOf($node);
 
-        $attrs = $block->getData('attributes', []);
+        $attrs = $node->data->getData('attributes');
 
-        $infoWords = $block->getInfoWords();
+        $infoWords = $node->getInfoWords();
 
         # for default value not specifying infoword
         $entertag = 'code';
@@ -68,8 +67,8 @@ final class FencedCodeRenderer implements BlockRendererInterface
         }
 
         # Do not escape code block; BELIEVE DOKUWIKI!
-        #$result = Xml::escape($block->getStringContent());
-        $result = $block->getStringContent();
+        #$result = Xml::escape($node->getStringContent());
+        $result = $node->getLiteral();
         if ($entertag):
             $result = '<' . $entertag . ">\n" . $result . "</" . $exittag . ">";
         endif;

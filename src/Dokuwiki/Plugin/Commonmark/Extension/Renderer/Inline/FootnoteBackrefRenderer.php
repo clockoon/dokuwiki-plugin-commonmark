@@ -17,28 +17,26 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Extension\Footnote\Node\FootnoteBackref;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-final class FootnoteBackrefRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class FootnoteBackrefRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /** @var ConfigurationInterface */
-    private $config;
+    private ConfigurationInterface $config;
 
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer)
     {
-        if (!($inline instanceof FootnoteBackref)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        FootnoteBackref::assertInstanceOf($node);
         
         return '';
     }
 
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->config = $configuration;
     }

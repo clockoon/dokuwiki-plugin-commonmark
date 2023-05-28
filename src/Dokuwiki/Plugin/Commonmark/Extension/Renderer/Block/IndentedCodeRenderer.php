@@ -15,30 +15,28 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\IndentedCode;
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\Xml;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-
-final class IndentedCodeRenderer implements BlockRendererInterface
+final class IndentedCodeRenderer implements NodeRendererInterface
 {
     /**
      * @param IndentedCode             $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($block instanceof IndentedCode)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        IndentedCode::assertInstanceOf($node);
 
         # As in FencedCodeRenderer.php, do not escape code block
-        # return "\n  " . Xml::escape($block->getStringContent());
-        return "\n  " . preg_replace("/[\n\r]/", "\n  ", $block->getStringContent());
+        # return "\n  " . Xml::escape($node->getStringContent());
+        return "\n  " . preg_replace("/[\n\r]/", "\n  ", $node->getLiteral());
     }
 }

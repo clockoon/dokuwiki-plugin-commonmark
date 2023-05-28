@@ -18,20 +18,18 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Extension\Table\TableRow;
 
-final class TableRowRenderer implements BlockRendererInterface
+final class TableRowRenderer implements NodeRendererInterface
 {
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!$block instanceof TableRow) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . get_class($block));
-        }
+        TableRow::assertInstanceOf($node);
 
-        $result = $DWRenderer->renderBlocks($block->children());
+        $result = $DWRenderer->renderNodes($node->children());
         $result = preg_replace('/\n/', "", $result); # row on one line
         return $result . '|';
 

@@ -15,45 +15,44 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\EnvironmentInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\HtmlInline;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Extension\CommonMark\Node\Inline\HtmlInline;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlFilter;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-final class HtmlInlineRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class HtmlInlineRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /**
      * @var ConfigurationInterface
      */
-    protected $config;
+    private ConfigurationInterface $config;
 
     /**
      * @param HtmlInline               $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $htmlRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($inline instanceof HtmlInline)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        HtmlInline::assertInstanceOf($node);
 
-        if ($this->config->get('html_input') === EnvironmentInterface::HTML_INPUT_STRIP) {
+        if ($this->config->get('html_input') === HtmlFilter::STRIP) {
             return '';
         }
 
-        if ($this->config->get('html_input') === EnvironmentInterface::HTML_INPUT_ESCAPE) {
-            return \htmlspecialchars($inline->getContent(), \ENT_NOQUOTES);
+        if ($this->config->get('html_input') === HtmlFilter::ESCAPE) {
+            return \htmlspecialchars($node->getContent(), \ENT_NOQUOTES);
         }
 
-        return $inline->getContent();
+        return $node->getContent();
     }
 
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->config = $configuration;
     }

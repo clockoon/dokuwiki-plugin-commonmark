@@ -15,41 +15,38 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\ListBlock;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\ListBlock;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-final class ListBlockRenderer implements BlockRendererInterface
+final class ListBlockRenderer implements NodeRendererInterface
 {
     /**
      * @param ListBlock                $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($block instanceof ListBlock)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        ListBlock::assertInstanceOf($node);
 
-        $listData = $block->getListData();
-
+        $listData = $node->getListData();
         $tag = $listData->type === ListBlock::TYPE_BULLET ? "* " : "- ";
 
-        $attrs = $block->getData('attributes', []);
+        $attrs = $node->data->get('attributes');
 
         if ($listData->start !== null && $listData->start !== 1) {
             $attrs['start'] = (string) $listData->start;
         }
 
         $result = 
-                $DWRenderer->renderBlocks(
-                    $block->children(),
-                    $block->isTight()
+                $DWRenderer->renderNodes(
+                    $node->children(),
+                    $node->isTight()
                 );
 
         $result = preg_replace("/\n/", "\n  ", $result); # add two-space indentation

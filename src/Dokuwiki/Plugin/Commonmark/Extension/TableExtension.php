@@ -18,9 +18,9 @@ declare(strict_types=1);
 
 namespace DokuWiki\Plugin\Commonmark\Extension;
 
-use League\CommonMark\ConfigurableEnvironmentInterface;
+use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\ExtensionInterface;
-use League\CommonMark\Extension\Table\TableParser;
+use League\CommonMark\Extension\Table\TableStartParser;
 use League\CommonMark\Extension\Table\Table;
 use League\CommonMark\Extension\Table\TableCell;
 use League\CommonMark\Extension\Table\TableRow;
@@ -32,15 +32,15 @@ use Dokuwiki\Plugin\Commonmark\Extension\Renderer\Block\TableCellRenderer;
 
 final class TableExtension implements ExtensionInterface
 {
-    public function register(ConfigurableEnvironmentInterface $environment): void
+    public function register(EnvironmentBuilderInterface $environment): void
     {
         $environment
-            ->addBlockParser(new TableParser())
+            ->addBlockStartParser(new TableStartParser())
 
-            ->addBlockRenderer(Table::class, new TableRenderer())
-            ->addBlockRenderer(TableSection::class, new TableSectionRenderer())
-            ->addBlockRenderer(TableRow::class, new TableRowRenderer())
-            ->addBlockRenderer(TableCell::class, new TableCellRenderer())
+            ->addRenderer(Table::class, new TableRenderer())
+            ->addRenderer(TableSection::class, new TableSectionRenderer())
+            ->addRenderer(TableRow::class, new TableRowRenderer())
+            ->addRenderer(TableCell::class, new TableCellRenderer())
         ;
     }
 }

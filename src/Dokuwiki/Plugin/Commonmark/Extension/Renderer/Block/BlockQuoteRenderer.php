@@ -15,29 +15,29 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\BlockQuote;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\BlockQuote;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-final class BlockQuoteRenderer implements BlockRendererInterface
+final class BlockQuoteRenderer implements NodeRendererInterface
 {
     /**
      * @param BlockQuote               $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($block instanceof BlockQuote)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        BlockQuote::assertInstanceOf($node);
 
-        $attrs = $block->getData('attributes', []);
+        $attrs = $node->data->get('attributes');
 
-        $filling = $DWRenderer->renderBlocks($block->children());
+        $filling = $DWRenderer->renderNodes($node->children());
         $filling = preg_replace('/\n/', "\n>", $filling);
 
         if ($filling === '') {

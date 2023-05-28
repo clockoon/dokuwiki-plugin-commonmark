@@ -15,26 +15,24 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Newline;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Node\Inline\Newline;
+use League\CommonMark\Node\Node;
 
-final class NewlineRenderer implements InlineRendererInterface
+final class NewlineRenderer implements NodeRendererInterface
 {
     /**
      * @param Newline                  $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return HtmlElement|string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer)
     {
-        if (!($inline instanceof Newline)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        Newline::assertInstanceOf($node);
 
-        if ($inline->getType() === Newline::HARDBREAK) {
+        if ($node->getType() === Newline::HARDBREAK) {
             return "\\\\ ";
         }
 

@@ -72,7 +72,7 @@ $test7 = '
 | left baz      | right baz     |
 ';
 
-$test7 = ' list footnote test[^3];
+$test8 = ' list footnote test[^3];
 - **test**.
 - test2[^2].
   - nested list test[^1].
@@ -85,8 +85,61 @@ outside footnote test[^4].
 [^4]: normal text test 2.
 ';
 
-$test = $test7;
-echo $test . "\n\n=========================\n\n";
-echo Commonmark::RendtoDW($test);
+$test9 = '
+Before the code
 
+```
+fenced line 1
+fenced line 2
+```
+
+    indent line 1
+    indent line 2
+
+After the code';
+
+$test10 = <<<MD
+---
+tags: 
+  - tag1
+  - tag2
+---
+
+Before the code
+
+```
+fenced line 1
+fenced line 2
+```
+
+    indent line 1
+    indent line 2
+
+After the code
+MD;
+
+$test11_p = '
+---
+layout: post
+title: I Love Markdown
+tags:
+  - test
+  - example
+---
+
+# Hello World!
+It is [[wiki/link|Wikilink]].
+[wikilink](wiki/link) [external link](https://external.link)
+';
+
+$test11 = <<<MD
+$test11_p
+MD;
+
+$test = ltrim($test11_p);
+echo $test . "\n\n=========================\n\n";
+$result = Commonmark::RendtoDW($test);
+echo $result;
+//$frontmatter = Commonmark::ExtractFrontmatter($test);
+//print_r($frontmatter);
 ?>

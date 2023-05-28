@@ -15,25 +15,23 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\ThematicBreak;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\ThematicBreak;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 
-final class ThematicBreakRenderer implements BlockRendererInterface
+final class ThematicBreakRenderer implements NodeRendererInterface
 {
     /**
      * @param ThematicBreak            $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $htmlRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($block instanceof ThematicBreak)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        ThematicBreak::assertInstanceOf($node);
 
         return "\n----";
     }

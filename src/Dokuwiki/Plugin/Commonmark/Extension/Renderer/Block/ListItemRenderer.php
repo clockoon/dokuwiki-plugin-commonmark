@@ -15,29 +15,28 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\ListItem;
-use League\CommonMark\Block\Element\Paragraph;
-use League\CommonMark\ElementRendererInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\ListItem;
 use League\CommonMark\Extension\TaskList\TaskListItemMarker;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Node\Block\Paragraph;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Xml\XmlNodeRendererInterface;
 
-final class ListItemRenderer implements BlockRendererInterface
+final class ListItemRenderer implements NodeRendererInterface
 {
     /**
      * @param ListItem                 $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($block instanceof ListItem)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        ListItem::assertInstanceOf($node);
 
-        $result = $DWRenderer->renderBlocks($block->children(), $inTightList);
+        $result = $DWRenderer->renderNodes($node->children());
         if (\substr($result, 0, 1) === '<' && !$this->startsTaskListItem($block)) {
             $result = "\n" . $result;
         }
@@ -50,9 +49,9 @@ final class ListItemRenderer implements BlockRendererInterface
         return "<li>" . $result;
     }
 
-    private function startsTaskListItem(ListItem $block): bool
+    private function startsTaskListItem(Node $node): bool
     {
-        $firstChild = $block->firstChild();
+        $firstChild = $node->firstChild();
 
         return $firstChild instanceof Paragraph && $firstChild->firstChild() instanceof TaskListItemMarker;
     }

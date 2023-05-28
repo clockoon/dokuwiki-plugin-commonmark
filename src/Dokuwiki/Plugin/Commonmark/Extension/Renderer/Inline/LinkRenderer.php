@@ -15,15 +15,15 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Inline;
 
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Link;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 use League\CommonMark\Util\RegexHelper;
 
-final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class LinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
     /**
      * @var ConfigurationInterface
@@ -32,28 +32,26 @@ final class LinkRenderer implements InlineRendererInterface, ConfigurationAwareI
 
     /**
      * @param Link                     $inline
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      *
      * @return string
      */
-    public function render(AbstractInline $inline, ElementRendererInterface $DWRenderer)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($inline instanceof Link)) {
-            throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
-        }
+        Link::assertInstanceOf($node);
 
-        $attrs = $inline->getData('attributes', []);
+        $attrs = $node->data->get('attributes');
 
         $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
-        if (!($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl()))) {
-            $attrs['href'] = $inline->getUrl();
+        if (!($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($node->getUrl()))) {
+            $attrs['href'] = $node->getUrl();
         }
 
-        $result = '[[' . $attrs['href'] . '|' . $DWRenderer->renderInlines($inline->children()) . ']]';
+        $result = '[[' . $attrs['href'] . '|' . $DWRenderer->renderNodes($node->children()) . ']]';
         return $result;
     }
 
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration): void
     {
         $this->config = $configuration;
     }

@@ -15,27 +15,25 @@
 
 namespace DokuWiki\Plugin\Commonmark\Extension\Renderer\Block;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\Document;
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\Block\Renderer\BlockRendererInterface;
+use League\CommonMark\Node\Block\Document;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
 
-final class DocumentRenderer implements BlockRendererInterface
+final class DocumentRenderer implements NodeRendererInterface
 {
     /**
      * @param Document                 $block
-     * @param ElementRendererInterface $DWRenderer
+     * @param ChildNodeRendererInterface $DWRenderer
      * @param bool                     $inTightList
      *
      * @return string
      */
-    public function render(AbstractBlock $block, ElementRendererInterface $DWRenderer, bool $inTightList = false)
+    public function render(Node $node, ChildNodeRendererInterface $DWRenderer): string
     {
-        if (!($block instanceof Document)) {
-            throw new \InvalidArgumentException('Incompatible block type: ' . \get_class($block));
-        }
+        Document::assertInstanceOf($node);
 
-        $wholeDoc = $DWRenderer->renderBlocks($block->children());
+        $wholeDoc = $DWRenderer->renderNodes($node->children());
 
         return $wholeDoc === '' ? '' : $wholeDoc . "\n";
     }
