@@ -37,7 +37,7 @@ final class ListItemRenderer implements NodeRendererInterface
         ListItem::assertInstanceOf($node);
 
         $result = $DWRenderer->renderNodes($node->children());
-        if (\substr($result, 0, 1) === '<' && !$this->startsTaskListItem($block)) {
+        if (\substr($result, 0, 1) === '<' && \substr($result, 0, 5) !== '<del>' && !$this->startsTaskListItem($node)) {
             $result = "\n" . $result;
         }
         if (\substr($result, -1, 1) === '>') {
