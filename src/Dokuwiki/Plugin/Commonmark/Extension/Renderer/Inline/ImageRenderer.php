@@ -41,6 +41,7 @@ final class ImageRenderer implements NodeRendererInterface, ConfigurationAwareIn
     {
         Image::assertInstanceOf($node);
 
+        $args = null;
         $attrs = $node->data->get('attributes');
 
         $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
@@ -48,6 +49,7 @@ final class ImageRenderer implements NodeRendererInterface, ConfigurationAwareIn
             $attrs['src'] = '';
         } else {
             $attrs['src'] = $node->getUrl();
+            \parse_str(\parse_url($node->getUrl(), PHP_URL_QUERY), $args);
         }
 
         $alt = $DWRenderer->renderNodes($node->children());
@@ -58,8 +60,12 @@ final class ImageRenderer implements NodeRendererInterface, ConfigurationAwareIn
             $attrs['title'] = $node->data['title'];
         }
 
-        $result = '{{' . $attrs['src'];
-        $attrs['alt'] ? $result.= '|' . $attrs['alt'] . '}}' : $result.= '}}';
+        $result = '{{' . (isset($args['align']) && ($args['align'] === 'right' || $args['align'] === 'center') ? ' ' : '');
+        $result.= $attrs['src'] . (isset($args['align']) && ($args['align'] === 'left' || $args['align'] === 'center') ? ' ' : '');
+        if ($attrs['alt']) {
+            $result.= '|' . trim($attrs['alt']);
+        }
+        $result.= '}}';
 
         return $result;
     }   

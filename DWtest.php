@@ -136,7 +136,19 @@ $test11 = <<<MD
 $test11_p
 MD;
 
-$test = ltrim($test11_p);
+$test12 = '## Image Alignment
+![](test.jpg)
+
+![](test.jpg?align=left)
+
+![](test.jpg?align=right)
+
+![](test.jpg?align=center)
+
+![](test.jpg?align=right&400)
+';
+
+$test = ltrim($test12);
 echo $test . "\n\n=========================\n\n";
 $result = Commonmark::RendtoDW($test);
 echo $result;
