@@ -136,7 +136,18 @@ $test11 = <<<MD
 $test11_p
 MD;
 
-$test = ltrim($test11_p);
+$test12 = '## List test
+### Unordered List
+- ~~item 1~~
+- **item 2**
+- item 3
+
+### Ordered List
+1. ~~item 1~~
+2. **item 2**
+3. item 3';
+
+$test = ltrim($test12);
 echo $test . "\n\n=========================\n\n";
 $result = Commonmark::RendtoDW($test);
 echo $result;
