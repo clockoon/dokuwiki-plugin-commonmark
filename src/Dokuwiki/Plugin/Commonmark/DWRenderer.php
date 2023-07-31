@@ -69,7 +69,7 @@ final class DWRenderer implements ChildNodeRendererInterface
         $isFirstItem = true;
 
         foreach ($nodes as $node) {
-            if (! $isFirstItem && $node instanceof Node) {
+            if (! $isFirstItem && $node instanceof AbstractBlock) {
                 $output .= $this->getBlockSeparator();
             }
 
