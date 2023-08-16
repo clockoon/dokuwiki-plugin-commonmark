@@ -147,7 +147,9 @@ $test12 = '## List test
 2. **item 2**
 3. item 3';
 
-$test = ltrim($test12);
+$test13 = 'Inline markup and punctuation: **Bold**, *Italic*, `fixed-width`.';
+
+$test = ltrim($test13);
 echo $test . "\n\n=========================\n\n";
 $result = Commonmark::RendtoDW($test);
 echo $result;
