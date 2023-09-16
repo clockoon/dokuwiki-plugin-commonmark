@@ -3,6 +3,7 @@
 require_once __DIR__.'/src/bootstrap.php';
 
 use Dokuwiki\Plugin\Commonmark\Commonmark;
+use League\CommonMark\CommonMarkConverter;
 
 //$environment = Environment::createCommonMarkEnvironment();
 
@@ -141,18 +142,29 @@ $test12 = '## List test
 - ~~item 1~~
 - **item 2**
 - item 3
+- foo
+- bar
+- ~~ baz ~~
 
 ### Ordered List
 1. ~~item 1~~
 2. **item 2**
-3. item 3';
+3. item 3'
+;
 
-$test13 = 'Inline markup and punctuation: **Bold**, *Italic*, `fixed-width`.';
+$test13 = 'Inline markup and punctuation: Go**Bold**, *Italic*, `fixed-width`.';
 
-$test = ltrim($test13);
+$test14 = '| X | Y |
+| ----------- | ----------------- |
+| <ul><li>A<li>B<ul><li>Ba<li>Bb</ul><li>C</ul> | me |';
+
+$test = ltrim($test14);
 echo $test . "\n\n=========================\n\n";
 $result = Commonmark::RendtoDW($test);
-echo $result;
+echo $result . "\n\n=========================\n\n";
+$converter = new CommonMarkConverter();
+echo $converter->convert($test);
+
 //$frontmatter = Commonmark::ExtractFrontmatter($test);
 //print_r($frontmatter);
 ?>

@@ -83,7 +83,7 @@ class Commonmark {
         $environment->addExtension(new FrontMatterExtension());
 
         $environment->mergeConfig([
-            'html_input' => 'strip',
+            'html_input' => 'allow',
         ]);
 
         return $environment;

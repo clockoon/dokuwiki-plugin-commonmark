@@ -46,10 +46,10 @@ final class HtmlInlineRenderer implements NodeRendererInterface, ConfigurationAw
         }
 
         if ($this->config->get('html_input') === HtmlFilter::ESCAPE) {
-            return \htmlspecialchars($node->getContent(), \ENT_NOQUOTES);
+            return \htmlspecialchars($node->getLiteral(), \ENT_NOQUOTES);
         }
 
-        return $node->getContent();
+        return $node->getLiteral();
     }
 
     public function setConfiguration(ConfigurationInterface $configuration): void
