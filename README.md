@@ -14,8 +14,8 @@ If you want to parse all DW pages as Commonmark without specific doctype, you ca
 ## Compatibility
 Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most Markdown syntax have corresponding DW syntax, so it will work without problem; but in some cases, Markdown syntax do not matches DW specification one-by-one, or vice versa. Here is a list of known ambiguities between Commonmark and Dokuwiki, and its implements in the plugin:
 
-- Since DW do not parses raw HTML without `htmlok` config, [HTML blocks](https://spec.commonmark.org/0.30/#html-blocks) is passed.
-- When adding `html` as [info string](https://spec.commonmark.org/0.28/#info-string) in [Fenced code blocks](https://spec.commonmark.org/0.30/#fenced-code-blocks), it parse to DW's [\<HTML\>](https://www.dokuwiki.org/wiki:syntax#embedding_html_and_php) block; In case of `nowiki`, `<nowiki>` syntax will be parsed; if `dokuwiki`, raw DW code will be passed. For example:
+- Since the release of "Jack Jackrun", DW have [completely disabled](https://www.dokuwiki.org/faq:html) embedding HTML code. [HTML blocks](https://spec.commonmark.org/0.30/#html-blocks) will be passed as-is, unless enabling [htmlok plugin](https://www.dokuwiki.org/plugin:htmlok); but it is recommended to use it in limited environments.
+- If you have enabled htmlok plugin, adding `html` as [info string](https://spec.commonmark.org/0.28/#info-string) in [Fenced code blocks](https://spec.commonmark.org/0.30/#fenced-code-blocks) will parse HTML code inside the block to DW's [\<HTML\>](https://www.dokuwiki.org/wiki:syntax#embedding_html_and_php) block; In case of `nowiki`, `<nowiki>` syntax will be parsed; if `dokuwiki`, raw DW code will be passed. For example:
 
 ````
 ```dokuwiki
@@ -23,9 +23,7 @@ Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most M
 ```
 ````
 
-
-
-Commonmark plugin would conflit with other markdown-related plugins, including Mdpage.
+Commonmark plugin would conflit with other markdown-related plugins, including [Mdpage](https://www.dokuwiki.org/plugin:mdpage).
 
 Due to the concept, section edit will not work, or at least recognize the section as broken snippet rather than expected. This bug will be fixed in later version.
 
