@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__.'/src/bootstrap.php';
 
 use Dokuwiki\Plugin\Commonmark\Commonmark;
@@ -158,12 +157,35 @@ $test14 = '| X | Y |
 | ----------- | ----------------- |
 | <ul><li>A<li>B<ul><li>Ba<li>Bb</ul><li>C</ul> | me |';
 
-$test = ltrim($test14);
+$test15 = '
+1. Option one  
+ Second paragraph
+
+2. Option two  
+ Second paragraph
+ 
+HARD    
+BREAK
+
+SOFT
+BREAK';
+
+$test = ltrim($test15);
 echo $test . "\n\n=========================\n\n";
+
+$time_start = microtime(true); 
 $result = Commonmark::RendtoDW($test);
 echo $result . "\n\n=========================\n\n";
+$time_end = microtime(true);
+
+// ms time
+$execution_time = ($time_end - $time_start)*1000;
+
 $converter = new CommonMarkConverter();
 echo $converter->convert($test);
+
+//execution time of the script
+echo 'Total Execution Time: '.$execution_time.' ms';
 
 //$frontmatter = Commonmark::ExtractFrontmatter($test);
 //print_r($frontmatter);
