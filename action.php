@@ -39,6 +39,8 @@
     }
 
     public function _editbutton(Doku_Event $event, $param) {
+        echo(print_r($this->headingInfo));
+        echo(print_r($this->linePosition));
         global $conf;
 
         // get hid
@@ -46,7 +48,7 @@
         // fetch range on original md
         // check hid match
         $keys = array_keys($this->headingInfo);
-        if (array_key_exists($hid,$keys)) {
+        if (in_array($hid,$keys)) {
             // get max section editing level config
             $maxsec = $conf['maxseclevel'];
             // set start position
@@ -102,9 +104,10 @@
         if ($this->firstRun == true) {
             // get position of each line
             $lastPos = 0;
-            while(($lastPos = strpos($markdown,'\n',$lastPos)) !== false){
-                $linePosition[] = $lastPos;
-                $lastPos = $lastPos + strlen('\n');
+            $this->linePosition[] = $lastPos;
+            while(($lastPos = strpos($markdown,PHP_EOL,$lastPos)) !== false){
+                $this->linePosition[] = $lastPos;
+                $lastPos = $lastPos + strlen(PHP_EOL);
             }
             $this->headingInfo = $this->CleanHeadingInfo($result['heading']);
             $this->firstRun = false;
@@ -114,12 +117,14 @@
     public function CleanHeadingInfo(array $input): array {
         $keys = array_keys($input);
         foreach($keys as $key) {
-            $new_key = sectionId($key, false);
+            $check = false;
+            $new_key = sectionId($key, $check);
             if($new_key != $key) {
                 $input[$new_key] = $input[$key];
                 unset($input[$key]);
             }
         }
+        uasort($input, fn($a, $b) => $a['startline'] <=> $b['startline']);
         return $input;
     }
 }
