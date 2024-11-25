@@ -137,7 +137,11 @@ $test11 = <<<MD
 $test11_p
 MD;
 
-$test12 = '## List test
+$test12 = '
+Title
+======
+
+## List test
 ### Unordered List
 - ~~item 1~~
 - **item 2**
@@ -158,13 +162,16 @@ $test14 = '| X | Y |
 | ----------- | ----------------- |
 | <ul><li>A<li>B<ul><li>Ba<li>Bb</ul><li>C</ul> | me |';
 
-$test = ltrim($test14);
+$test = ltrim($test12);
 echo $test . "\n\n=========================\n\n";
-$result = Commonmark::RendtoDW($test);
+$result = Commonmark::RendtoDW($test)['text'];
 echo $result . "\n\n=========================\n\n";
+$headingInfo = Commonmark::RendtoDW($test)['heading'];
+echo print_r($headingInfo) . "\n\n=========================\n\n";
 $converter = new CommonMarkConverter();
 echo $converter->convert($test);
 
 //$frontmatter = Commonmark::ExtractFrontmatter($test);
 //print_r($frontmatter);
+
 ?>
