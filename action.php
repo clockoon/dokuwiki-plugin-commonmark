@@ -39,8 +39,8 @@
     }
 
     public function _editbutton(Doku_Event $event, $param) {
-        echo(print_r($this->headingInfo));
-        echo(print_r($this->linePosition));
+        //echo(print_r($this->headingInfo));
+        //echo(print_r($this->linePosition));
         global $conf;
 
         // get hid
@@ -56,9 +56,9 @@
             if ($hid == $keys[0]) {
                 $start = 1;
             } else {
-                $lineStart = $this->headingInfo[$hid]['startline'];
-                // since CommonMark library finds heading marks, we have to declare 
-                $start = $this->linePosition[$lineStart];
+                $lineStart = $this->headingInfo[$hid]['startline'] - 1;
+                // since CommonMark library finds heading marks, we have to declare
+                $start = $this->linePosition[$lineStart] + 1;
             }
             // find end key & location; proceed while max level or less arrived
             $endlevel = 52;
@@ -70,7 +70,7 @@
                     $endlevel = $this->headingInfo[$keys[$index+1]]['level'];
                     $lineEnd = $this->headingInfo[$keys[$index+1]]['startline'] - 1; // go one line up
                     $end = $this->linePosition[$lineEnd]; 
-                    if($maxsec<=$endlevel) { $stop = true; }
+                    if($maxsec>=$endlevel) { $stop = true; }
                 } else {
                     $end = 0;
                     $stop = true;
@@ -110,6 +110,7 @@
                 $lastPos = $lastPos + strlen(PHP_EOL);
             }
             $this->headingInfo = $this->CleanHeadingInfo($result['heading']);
+            $this->FixHeadingLine($markdown);
             $this->firstRun = false;
         }
     }
@@ -126,5 +127,18 @@
         }
         uasort($input, fn($a, $b) => $a['startline'] <=> $b['startline']);
         return $input;
+    }
+
+    public function FixHeadingLine(string $markdown) {
+        $arr = explode(PHP_EOL, $markdown);
+        foreach($this->headingInfo as &$element) {
+            $target = $arr[$element['startline'] - 1];
+            if (preg_match('/^#{1,6}(?:[ \t]+|$)/', $target) == 1) {
+                $element['endline'] = $element['startline'];
+            } else {
+                $element['startline'] = $element['startline'] - 1;
+                $element['endline'] = $element['endline'] - 1;
+            }
+        }
     }
 }
