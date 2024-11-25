@@ -12,13 +12,16 @@ use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
 class Commonmark {
-    public static function RendtoDW($markdown, $frontmatter_tag = 'off'): string {
-        # create environment
+    public static function RendtoDW($markdown, $frontmatter_tag = 'off'): array {
+        // heading info
+        $headingInfo = [];
+
+        // create environment
         $environment = self::createDWEnvironment();
         
-        # create parser
+        // create parser
         $parser = new MarkdownParser($environment);
-        # create Dokuwiki Renderer
+        // create Dokuwiki Renderer
         $DWRenderer = new DWRenderer($environment);
 
         # separate frontmatter and main text
@@ -37,7 +40,6 @@ class Commonmark {
                     $tagStr = $tagStr. "\"". $tag. "\" ";
                 }
                 $tagStr = $tagStr. "}}";
-                //echo $tagStr;    
             }
         }
 
@@ -45,18 +47,36 @@ class Commonmark {
         $markdownOnly = self::ParseDokuwikiWikilinks($markdownOnly);
         $document = $parser->parse($markdownOnly);
         $renderResult = $DWRenderer->renderNode($document);
+        // debug
+        foreach ($document->iterator() as $node) {
+            // if(strpos(get_class($node),'Block') == true) {
+            //    echo 'Current node: ' . get_class($node) . '(startline: ' . $node->getStartLine() . ', endline: ' . $node->getEndLine() . ") \n";
+            // }
+            // else {
+            //    echo 'Current node: ' . get_class($node) . "\n";
+            // }
+            if(get_class($node) == 'League\CommonMark\Extension\CommonMark\Node\Block\Heading') {
+                $headingInfo[$node->firstChild()->getLiteral()] = array(
+                    'level' => $node->getLevel(),
+                    'startline' => $node->getStartLine(),
+                    'endline' => $node->getEndLine()
+                );
+            }
+        }
 
         if($frontmatter_tag == 'off') {
-            return $renderResult;
+            return array('text'=>$renderResult, 'heading'=>$headingInfo);
         } elseif($frontmatter_tag == 'upper') {
-            return $tagStr."\n\n".$renderResult;
+            return array('text'=>$tagStr."\n\n".$renderResult, 'heading'=>$headingInfo);
+            //return $tagStr."\n\n".$renderResult;
         } else {
-            return $renderResult."\n\n".$tagStr;
+            return array('text'=>$renderResult."\n\n".$tagStr, 'heading'=>$headingInfo);
+            //return $renderResult."\n\n".$tagStr;
         }
     }
 
     // Temporary implementation: separate method for frontmatter extraction
-    // Since som parsed frontmatter info must be included in main text, it should be merged
+    // Since some parsed frontmatter info must be included in main text, it should be merged
     public static function ExtractFrontmatter($markdown) {
         $frontMatterExtension = new FrontMatterExtension();
         $result = $frontMatterExtension->getFrontMatterParser()->parse($markdown);
