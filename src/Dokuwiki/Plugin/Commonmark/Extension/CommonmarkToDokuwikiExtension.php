@@ -79,7 +79,7 @@ final class CommonMarkToDokuWikiExtension implements ConfigurableExtensionInterf
             ->addRenderer(InlineElement\HtmlInline::class, new InlineRenderer\HtmlInlineRenderer(), 0)
             ->addRenderer(InlineElement\Image::class,      new InlineRenderer\ImageRenderer(),      0)
             ->addRenderer(InlineElement\Link::class,       new InlineRenderer\LinkRenderer(),       0)
-            ->addRenderer(InlineElement\Newline::class,    new InlineRenderer\NewlineRenderer(),    0)
+            ->addRenderer(CoreInlineElement\Newline::class,    new InlineRenderer\NewlineRenderer(),    0)
             ->addRenderer(InlineElement\Strong::class,     new InlineRenderer\StrongRenderer(),     0)
             ->addRenderer(CoreInlineElement\Text::class,       new InlineRenderer\TextRenderer(),       0)
         ;
