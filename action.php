@@ -34,17 +34,22 @@
     public function register(Doku_Event_Handler $controller) {
         $controller->register_hook('PARSER_WIKITEXT_PREPROCESS', 'BEFORE', $this,
                                     '_commonmarkparse');
-        $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 
+        if($this->getConf('allow_secedit')) {
+            $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 
                                     '_editbutton');
+        }
     }
 
+    /**
+     * override edit button range correspond to MD
+     */
     public function _editbutton(Doku_Event $event, $param) {
         //echo(print_r($this->headingInfo));
-        //echo(print_r($this->linePosition));
+        //echo(print_r($this->linePosition).'<br />');
         global $conf;
 
         // get hid
-        $hid = $event->data['hid'];
+        $hid = $event->data['hid']; 
         // fetch range on original md
         // check hid match
         $keys = array_keys($this->headingInfo);
