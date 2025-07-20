@@ -11,6 +11,7 @@ While there are many Markdown plugins (for example, [markdownu](https://www.doku
 3. After pre-rendering, passes the result to DW parser and process as usual
 
 If you want to parse all DW pages as Commonmark without specific doctype, you can enable `force_commonmark` option on config. But this action may conflit with existing document of DW markup, so please use it carefully.
+
 ## Compatibility
 Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most Markdown syntax have corresponding DW syntax, so it will work without problem; but in some cases, Markdown syntax do not matches DW specification one-by-one, or vice versa. Here is a list of known ambiguities between Commonmark and Dokuwiki, and its implements in the plugin:
 
@@ -25,7 +26,7 @@ Commonmark plugin aims for complete compatiblity of Markdown in Dokuwiki. Most M
 
 Commonmark plugin would conflit with other markdown-related plugins, including [Mdpage](https://www.dokuwiki.org/plugin:mdpage).
 
-Due to the concept, section edit will not work, or at least recognize the section as broken snippet rather than expected. This bug will be fixed in later version.
+Due to the plugin's mechanism, section edit button recognize the section as broken snippet rather than expected; it can be fixed if you enable `fix_secedit` option on config. Note that you must delete cache (ex: `?purge=true`) to work this feature correctly.
 
 ## License
 
