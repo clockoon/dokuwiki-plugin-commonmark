@@ -45,7 +45,7 @@
      */
     public function _editbutton(Doku_Event $event, $param) {
         //echo(print_r($this->headingInfo));
-        echo(print_r($this->linePosition).'<br />');
+        //echo(print_r($this->linePosition).'<br />');
         global $conf;
 
         // get hid
