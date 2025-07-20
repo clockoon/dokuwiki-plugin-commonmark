@@ -34,7 +34,7 @@
     public function register(Doku_Event_Handler $controller) {
         $controller->register_hook('PARSER_WIKITEXT_PREPROCESS', 'BEFORE', $this,
                                     '_commonmarkparse');
-        if($this->getConf('allow_secedit')) {
+        if($this->getConf('fix_secedit')) {
             $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 
                                     '_editbutton');
         }
@@ -45,7 +45,7 @@
      */
     public function _editbutton(Doku_Event $event, $param) {
         //echo(print_r($this->headingInfo));
-        //echo(print_r($this->linePosition).'<br />');
+        echo(print_r($this->linePosition).'<br />');
         global $conf;
 
         // get hid
@@ -74,7 +74,7 @@
                 if (isset($keys[$index+1])) { // check for non-last element
                     $endlevel = $this->headingInfo[$keys[$index+1]]['level'];
                     $lineEnd = $this->headingInfo[$keys[$index+1]]['startline'] - 1; // go one line up
-                    $end = $this->linePosition[$lineEnd]; 
+                    $end = $this->linePosition[$lineEnd] + 1; // apply newline 
                     if($maxsec>=$endlevel) { $stop = true; }
                 } else {
                     $end = 0;

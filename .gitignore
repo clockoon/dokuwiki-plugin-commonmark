@@ -3,4 +3,5 @@ vendor/*
 file.txt
 DWtest.php
 commonmark_dev.code-workspace
+composer.lock
 result.txt
