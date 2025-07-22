@@ -53,6 +53,7 @@
         // fetch range on original md
         // check hid match
         $keys = array_keys($this->headingInfo);
+        //echo(print_r($keys));
         if (in_array($hid,$keys)) {
             // get max section editing level config
             $maxsec = $conf['maxseclevel'];
@@ -87,7 +88,7 @@
             } else {
                 $event->data['range'] = (string)$start.'-'.$end;
             }
-            
+            //echo($lineStart . ' (' . $start . '), ' . $lineEnd . ' (' . $end  . ')<br />');
         }
         // example: $event->data['range'] = '1-2';
     }

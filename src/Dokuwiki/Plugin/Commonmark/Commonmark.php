@@ -56,7 +56,13 @@ class Commonmark {
             //    echo 'Current node: ' . get_class($node) . "\n";
             // }
             if(get_class($node) == 'League\CommonMark\Extension\CommonMark\Node\Block\Heading') {
-                $headingInfo[$node->firstChild()->getLiteral()] = array(
+                if(get_class($node->firstChild()) == 'League\CommonMark\Extension\CommonMark\Node\Inline\Link') {
+                    // set headingName as [[<Url>|<text>]]
+                    $headingName = '[['.$node->firstChild()->getUrl() . '|' . $node->firstChild()->firstChild()->getLiteral() . ']]';
+                } else {
+                    $headingName = $node->firstChild()->getLiteral();
+                }
+                $headingInfo[$headingName] = array(
                     'level' => $node->getLevel(),
                     'startline' => $node->getStartLine(),
                     'endline' => $node->getEndLine()
