@@ -20,6 +20,8 @@ use League\CommonMark\Extension\CommonMark\Node\Block as BlockElement;
 use League\CommonMark\Extension\CommonMark\Parser\Block as BlockParser;
 use League\CommonMark\Node\Block as CoreBlockElement;
 use League\CommonMark\Node\Inline as CoreInlineElement;
+use League\CommonMark\Node as CoreNode;
+use League\CommonMark\Parser as CoreParser;
 use Dokuwiki\Plugin\Commonmark\Extension\Renderer\Block as BlockRenderer;
 use League\CommonMark\Extension\CommonMark\Node\Inline as InlineElement;
 use League\CommonMark\Extension\CommonMark\Parser\Inline as InlineParser;
@@ -53,7 +55,7 @@ final class CommonMarkToDokuWikiExtension implements ConfigurableExtensionInterf
             ->addBlockStartParser(new BlockParser\IndentedCodeStartParser(),  -100)
             //->addBlockStartParser(new BlockParser\LazyParagraphParser(), -200)
 
-            //->addInlineParser(new InlineParser\NewlineParser(),     200)
+            ->addInlineParser(new CoreParser\Inline\NewlineParser(),     200)
             ->addInlineParser(new InlineParser\BacktickParser(),    150)
             ->addInlineParser(new InlineParser\EscapableParser(),    80)
             ->addInlineParser(new InlineParser\EntityParser(),       70)
@@ -79,7 +81,7 @@ final class CommonMarkToDokuWikiExtension implements ConfigurableExtensionInterf
             ->addRenderer(InlineElement\HtmlInline::class, new InlineRenderer\HtmlInlineRenderer(), 0)
             ->addRenderer(InlineElement\Image::class,      new InlineRenderer\ImageRenderer(),      0)
             ->addRenderer(InlineElement\Link::class,       new InlineRenderer\LinkRenderer(),       0)
-            ->addRenderer(CoreInlineElement\Newline::class,    new InlineRenderer\NewlineRenderer(),    0)
+            ->addRenderer(CoreNode\Inline\Newline::class,    new InlineRenderer\NewlineRenderer(),    0)
             ->addRenderer(InlineElement\Strong::class,     new InlineRenderer\StrongRenderer(),     0)
             ->addRenderer(CoreInlineElement\Text::class,       new InlineRenderer\TextRenderer(),       0)
         ;

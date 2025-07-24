@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__.'/src/bootstrap.php';
 
 use Dokuwiki\Plugin\Commonmark\Commonmark;
@@ -162,14 +161,38 @@ $test14 = '| X | Y |
 | ----------- | ----------------- |
 | <ul><li>A<li>B<ul><li>Ba<li>Bb</ul><li>C</ul> | me |';
 
-$test = ltrim($test12);
+$test15 = '
+1. Option one  
+ Second paragraph
+
+2. Option two  
+ Second paragraph
+ 
+HARD    
+BREAK
+
+SOFT
+BREAK';
+
+$test = ltrim($test15);
 echo $test . "\n\n=========================\n\n";
-$result = Commonmark::RendtoDW($test)['text'];
-echo $result . "\n\n=========================\n\n";
-$headingInfo = Commonmark::RendtoDW($test)['heading'];
-echo print_r($headingInfo) . "\n\n=========================\n\n";
+
+$time_start = microtime(true); 
+$result = Commonmark::RendtoDW($test);
+$time_end = microtime(true);
+echo $result['text'] . "\n\n=========================\n\n";
+echo print_r($result['heading']) . "\n\n=========================\n\n";
 $converter = new CommonMarkConverter();
 echo $converter->convert($test);
+
+// ms time
+$execution_time = ($time_end - $time_start)*1000;
+
+$converter = new CommonMarkConverter();
+echo $converter->convert($test);
+
+//execution time of the script
+echo 'Total Execution Time: '.$execution_time.' ms';
 
 //$frontmatter = Commonmark::ExtractFrontmatter($test);
 //print_r($frontmatter);
