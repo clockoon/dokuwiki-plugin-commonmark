@@ -12,12 +12,12 @@ use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
 class Commonmark {
-    public static function RendtoDW($markdown, $frontmatter_tag = 'off'): array {
+    public static function RendtoDW($markdown, $frontmatter_tag = 'off', $render_softbreaks = 0): array {
         // heading info
         $headingInfo = [];
 
         // create environment
-        $environment = self::createDWEnvironment();
+        $environment = self::createDWEnvironment($render_softbreaks);
         
         // create parser
         $parser = new MarkdownParser($environment);
@@ -99,7 +99,7 @@ class Commonmark {
         return $result;
     }
 
-    public static function createDWEnvironment(): Environment {
+    public static function createDWEnvironment($render_softbreaks): Environment {
         $config = [
             'html_input' => 'allow',
         ];

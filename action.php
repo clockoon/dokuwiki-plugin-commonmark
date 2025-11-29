@@ -98,7 +98,7 @@
         // check force_commonmark option; if 1, ignore doctype
         if ($this->getConf('force_commonmark')) {
             $markdown = ltrim($markdown);
-            $result = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'));
+            $result = Commonmark::RendtoDW($markdown, $this->getConf('frontmatter_tag'), $this->getConf('render_softbreaks'));
         }
         elseif (preg_match('/\A<!DOCTYPE markdown>/',$markdown)) {
             $markdown = preg_replace('/\A<!DOCTYPE markdown>\n/','',$markdown);
