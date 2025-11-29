@@ -102,13 +102,12 @@ class Commonmark {
     public static function createDWEnvironment($render_softbreaks): Environment {
         $config = [
             'html_input' => 'allow',
-            'renderer' => ['hart_break'=> "\\\\ "]
+            'commonmark' => ['hard_break'=> "\\\\ "]
         ];
-
         if ($render_softbreaks) {
-            $config['renderer']['soft_break'] = $config['renderer']['hart_break'];
+            $config['renderer']['soft_break'] = $config['commonmark']['hard_break'];
         }
-        
+
         $environment = new Environment($config);
         $environment->addExtension(new CommonMarkToDokuWikiExtension());
         $environment->addExtension(new FootnoteToDokuwikiExtension());
