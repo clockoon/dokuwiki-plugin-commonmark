@@ -36,6 +36,6 @@ final class NewlineRenderer implements NodeRendererInterface
             return "\\\\ ";
         }
 
-        return $DWRenderer->getOption('soft_break', "\n");
+        return $DWRenderer->getOption('soft_break');
     }
 }
