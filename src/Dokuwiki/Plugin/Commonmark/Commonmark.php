@@ -100,17 +100,15 @@ class Commonmark {
     }
 
     public static function createDWEnvironment(): Environment {
-        $config = [];
+        $config = [
+            'html_input' => 'allow',
+        ];
         $environment = new Environment($config);
         $environment->addExtension(new CommonMarkToDokuWikiExtension());
         $environment->addExtension(new FootnoteToDokuwikiExtension());
         $environment->addExtension(new StrikethroughExtension());
         $environment->addExtension(new TableExtension());
         $environment->addExtension(new FrontMatterExtension());
-
-        $environment->mergeConfig([
-            'html_input' => 'allow',
-        ]);
 
         return $environment;
     }
