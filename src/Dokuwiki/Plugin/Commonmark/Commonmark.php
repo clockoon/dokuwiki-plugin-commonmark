@@ -47,21 +47,35 @@ class Commonmark {
         $markdownOnly = self::ParseDokuwikiWikilinks($markdownOnly);
         $document = $parser->parse($markdownOnly);
         $renderResult = $DWRenderer->renderNode($document);
-        // debug
         foreach ($document->iterator() as $node) {
-            // if(strpos(get_class($node),'Block') == true) {
-            //    echo 'Current node: ' . get_class($node) . '(startline: ' . $node->getStartLine() . ', endline: ' . $node->getEndLine() . ") \n";
-            // }
-            // else {
-            //    echo 'Current node: ' . get_class($node) . "\n";
-            // }
-            if(get_class($node) == 'League\CommonMark\Extension\CommonMark\Node\Block\Heading') {
-                if(get_class($node->firstChild()) == 'League\CommonMark\Extension\CommonMark\Node\Inline\Link') {
+            if($node instanceof \League\CommonMark\Extension\CommonMark\Node\Block\Heading) {
+                // collect inline text recursively
+                $collectInlineText = function($node) use (&$collectInlineText) {
+                    $text = '';
+                    for ($child = $node->firstChild(); $child !== null; $child = $child->next()) {
+                        if (method_exists($child, 'getLiteral')) {
+                            $text .= $child->getLiteral();
+                        } else {
+                            // recurse into nested inline nodes (strong, emphasis, etc.)
+                            $text .= $collectInlineText($child);
+                        }
+                    }
+                    return $text;
+                };
+
+                $first = $node->firstChild();
+                if ($first === null) {
+                    $headingName = '';
+                } elseif($first instanceof \League\CommonMark\Extension\CommonMark\Node\Inline\Link) {
                     // set headingName as [[<Url>|<text>]]
-                    $headingName = '[['.$node->firstChild()->getUrl() . '|' . $node->firstChild()->firstChild()->getLiteral() . ']]';
+                    // link URL and its inner text (may contain nested inlines)
+                    $linkText = $collectInlineText($first);
+                    $headingName = '[[' . $first->getUrl() . '|' . $linkText . ']]';
                 } else {
-                    $headingName = $node->firstChild()->getLiteral();
+                    // collect all inline text inside the heading
+                    $headingName = $collectInlineText($node);
                 }
+
                 $headingInfo[$headingName] = array(
                     'level' => $node->getLevel(),
                     'startline' => $node->getStartLine(),
