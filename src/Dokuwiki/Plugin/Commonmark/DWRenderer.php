@@ -57,9 +57,13 @@ final class DWRenderer implements ChildNodeRendererInterface
      *
      * @return mixed|null
      */
-    public function getOption(string $option, $default = null)
+    public function getOption(string $option, bool $getCommonmarkOption = false)
     {
-        return $this->environment->getConfiguration()->get('renderer/' . $option, $default);
+        if ($getCommonmarkOption) {
+            return $this->environment->getConfiguration()->get('commonmark/' . $option);
+        }
+        return $this->environment->getConfiguration()->get('renderer/' . $option);
+        // Note: function 'get' does not have a parameter 'default' any more, so I removed it.
     }
 
     public function renderNodes(iterable $nodes): string

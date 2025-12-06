@@ -12,12 +12,12 @@ use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
 class Commonmark {
-    public static function RendtoDW($markdown, $frontmatter_tag = 'off'): array {
+    public static function RendtoDW($markdown, $frontmatter_tag = 'off', $render_softbreaks = 0): array {
         // heading info
         $headingInfo = [];
 
         // create environment
-        $environment = self::createDWEnvironment();
+        $environment = self::createDWEnvironment($render_softbreaks);
         
         // create parser
         $parser = new MarkdownParser($environment);
@@ -113,18 +113,21 @@ class Commonmark {
         return $result;
     }
 
-    public static function createDWEnvironment(): Environment {
-        $config = [];
+    public static function createDWEnvironment($render_softbreaks): Environment {
+        $config = [
+            'html_input' => 'allow',
+            'commonmark' => ['hard_break'=> "\\\\ "]
+        ];
+        if ($render_softbreaks) {
+            $config['renderer']['soft_break'] = $config['commonmark']['hard_break'];
+        }
+
         $environment = new Environment($config);
         $environment->addExtension(new CommonMarkToDokuWikiExtension());
         $environment->addExtension(new FootnoteToDokuwikiExtension());
         $environment->addExtension(new StrikethroughExtension());
         $environment->addExtension(new TableExtension());
         $environment->addExtension(new FrontMatterExtension());
-
-        $environment->mergeConfig([
-            'html_input' => 'allow',
-        ]);
 
         return $environment;
     }

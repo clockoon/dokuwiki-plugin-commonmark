@@ -41,9 +41,9 @@ final class BlockQuoteRenderer implements NodeRendererInterface
         $filling = preg_replace('/\n/', "\n>", $filling);
 
         if ($filling === '') {
-            return '>' . $DWRenderer->getOption('inner_separator', "\n");
+            return '>' . $DWRenderer->getOption('inner_separator');
         }
 
-        return '>' . $filling . $DWRenderer->getOption('inner_separator', "\n");
+        return '>' . $filling . $DWRenderer->getOption('inner_separator');
     }
 }

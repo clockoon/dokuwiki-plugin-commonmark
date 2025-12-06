@@ -37,6 +37,6 @@ final class ParagraphRenderer implements NodeRendererInterface
         $result = $DWRenderer->renderNodes($node->children());
         $result = preg_replace('/\n/', ' ', $result); # remove unwanted newline for DW
 
-        return $result . $DWRenderer->getOption('inner_separator', "\n");;
+        return $result . $DWRenderer->getOption('inner_separator',);;
     }
 }

@@ -33,9 +33,9 @@ final class NewlineRenderer implements NodeRendererInterface
         Newline::assertInstanceOf($node);
 
         if ($node->getType() === Newline::HARDBREAK) {
-            return "\\\\ ";
+            return $DWRenderer->getOption('hard_break', true);
         }
 
-        return $DWRenderer->getOption('soft_break', "\n");
+        return $DWRenderer->getOption('soft_break');
     }
 }
