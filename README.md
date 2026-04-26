@@ -1,6 +1,8 @@
 Dokuwiki Commonmark Plugin
 ===========================
 
+[~Ψ](https://github.com/clockoon/MaPSI)
+
 ## Description
 This is another plugin for parsing Commonmark / Markdown document in Dokuwiki.
 
